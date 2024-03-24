@@ -1,0 +1,102 @@
+<ng-container *ngIf="isLoading$ | async">
+  <app-loader></app-loader>
+</ng-container>
+<ng-container *ngIf="(isLoading$ | async) === 0">
+  <div class="card mb-5 mb-xl-8">
+    <!-- begin::Header -->
+    <div class="card-header border-0 pt-5 justify-content-end">
+      <!-- <h3 class="card-title align-items-start flex-column">
+        <span class="card-label fw-bolder fs-3 mb-1">New Arrivals</span>
+        <span class="text-muted mt-1 fw-bold fs-7">Over 500 new products</span>
+      </h3> -->
+      <div class="card-body">
+        <!-- begin: Filtration form -->
+        <div class="form form-label-right">
+          <div class="form-group row">
+            <div class="col-lg-3">
+              <input
+                type="text"
+                class="form-control"
+                name="search"
+                placeholder="Buscar"
+                value=""
+                [(ngModel)]="search"
+              /><small class="form-text text-muted"
+                ><b>Buscar</b> por nombre del Rol</small
+              >
+            </div>
+            <div class="col-lg-3">
+              <button class="btn btn-sm btn-primary" placement="top" [ngbTooltip]="'Filtro'" (click)="allRoles()">
+                <app-keenicon name="filter-search" type="outline"  class="text-white fs-2x"></app-keenicon>
+              </button>
+              <button class="btn btn-sm btn-dark ms-2" placement="top" [ngbTooltip]="'Reset'" (click)="reset()">
+                <app-keenicon name="arrows-circle" type="outline" class="text-white fs-2x"></app-keenicon>
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="card-toolbar">
+        <button class="btn btn-sm btn-primary"
+          (click)="addRol()">
+          <app-keenicon name="plus" class="text-white fs-2"></app-keenicon>
+          Nuevo Rol
+        </button>
+      </div>
+    </div>
+    <!-- end::Header -->
+    <!-- begin::Body -->
+    <div class="card-body py-3">
+      <!-- begin::Table container -->
+      <div class="table-responsive">
+        <!-- begin::Table -->
+        <table class="table align-middle gs-0 gy-4">
+          <!-- begin::Table head -->
+          <thead>
+            <tr class="fw-bolder text-muted bg-light">
+              <th class="ps-4 min-w-100px rounded-start">ID</th>
+              <th class="ps-4 min-w-100px rounded-start">Rol</th>
+              <th class="text-center rounded-center"></th>
+            </tr>
+          </thead>
+          <!-- end::Table head -->
+          <!-- begin::Table body -->
+          <tbody>
+            <tr *ngFor="let rol of roles">
+              <td class="ps-4 min-w-100px rounded-start">{{ rol.id }}</td>
+              <td class="ps-4 min-w-100px rounded-start">{{ rol.name }}</td>
+              <td class="ps-4 rounded-start">
+                <a
+                  (click)="editRol(rol)"
+                  class="btn btn-icon btn-bg-light btn-active-color-primary btn-sm me-1">
+                  <app-keenicon name="pencil" class="fs-3 text-info"></app-keenicon>
+                </a>
+                <a
+                  (click)="deleteRol(rol)"
+                  class="btn btn-icon btn-bg-light btn-active-color-primary btn-sm">
+                  <app-keenicon name="trash" class="fs-3 text-danger"></app-keenicon>
+                </a>
+              </td>
+            </tr>
+          </tbody>
+          <!-- end::Table body -->
+        </table>
+        <!-- end::Table -->
+      </div>
+      <!-- end::Table container -->
+    </div>
+    <!-- begin::Body -->
+  </div>
+
+  <div>
+    <ngb-pagination
+      [collectionSize]="totalPages"
+      [(page)]="currentPage"
+      [pageSize]="20"
+      [maxSize]="5"
+      [rotate]="true"
+      [boundaryLinks]="true"
+      (pageChange)="loadPage($event)"
+    ></ngb-pagination>
+</div>
+</ng-container>

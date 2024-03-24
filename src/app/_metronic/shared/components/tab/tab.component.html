@@ -1,0 +1,5 @@
+<ng-container *ngIf="active">
+  <div class="tab-pane" [class.show]="active" [class.active]="active" [style.animation]="active ? 'fadeIn 1s' : ''"  role="tab-panel">
+    <ng-content></ng-content>
+  </div>
+</ng-container>

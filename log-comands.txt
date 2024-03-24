@@ -1,0 +1,43 @@
+ng generate module modules/roles --routing
+ng generate component modules/roles
+ng generate service modules/roles/services/roles
+ng generate component modules/roles/roles-list
+ng generate component modules/roles/components/add-roles
+ng generate component modules/roles/components/edit-roles
+ng generate component modules/roles/components/delete-roles
+ng generate class modules/roles/models/roles.model
+
+
+ng generate module modules/users --routing
+ng generate component modules/users
+ng generate service modules/users/services/users
+ng generate component modules/users/users-list
+ng generate component modules/users/components/add-users
+ng generate component modules/users/components/edit-users
+ng generate component modules/users/components/delete-users
+ng generate class modules/users/models/users.model
+
+
+ng generate interface _metronic/shared/interfaces/image
+ng generate component _metronic/shared/components/tab
+ng generate component _metronic/shared/components/tabGroup
+ng generate component _metronic/shared/components/loader
+ng generate component _metronic/shared/components/single-image
+ng generate component _metronic/shared/components/multi-image
+ng generate component _metronic/shared/components/info-message
+ng generate component _metronic/shared/components/colored-circle
+ng generate component _metronic/shared/components/dynamic-search-form
+ng generate component _metronic/shared/components/dynamic-table
+
+ng generate service _metronic/shared/services/HttpRequestState
+ng generate service _metronic/shared/services/image
+ng generate service _metronic/shared/components/dynamic-search-form/dynamic-search-form
+ng generate service _metronic/shared/components/dynamic-table/dynamic-table
+
+ng generate class _metronic/shared/components/dynamic-search-form/dynamic-search-form.model
+ng generate class _metronic/shared/components/dynamic-table/dynamic-table.model
+
+ng generate interceptor _metronic/shared/interceptors/http-request
+
+ng generate directive  _metronic/shared/directives/tooltip
+

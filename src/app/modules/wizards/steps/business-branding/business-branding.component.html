@@ -1,0 +1,51 @@
+<div class="pb-10 pb-lg-12">
+  <h2 class="fw-bolder text-dark">Información de la Marca</h2>
+  <!-- <div class="text-gray-400 fw-bold fs-6">
+    If you need more info, please check out
+    <a href="#" class="link-primary fw-bolder">Help Page</a>.
+  </div> -->
+</div>
+<div [formGroup]="form">
+
+  <div class="fv-row mb-10">
+    <label class="d-flex align-items-center form-label"
+      ><span class="required">Nombre de la Marca</span></label
+    ><input
+      name="businessDescriptor"
+      class="form-control form-control-lg form-control-solid"
+      formControlName="businessDescriptor"
+    />
+    <div
+      class="fv-plugins-message-container invalid-feedback"
+      *ngIf="
+        form.get('businessDescriptor')?.hasError('required') &&
+        form.get('businessDescriptor')?.touched
+      "
+    >
+    El nombre de la marca es requerido
+    </div>
+    <div class="form-text">
+      Los clientes verán el nombre de la marca en su estado de cuenta.
+    </div>
+  </div>
+  <div class="fv-row mb-10">
+    <label class="form-label">Logo de la Marca</label>
+    <app-upload-single-image [options]="uploadSingleImageOption" ></app-upload-single-image>
+    <!-- <app-upload-multi-image [options]="uploadMultiImageOption"></app-upload-multi-image> -->
+  </div>
+  <div class="fv-row mb-10">
+    <label class="form-label">Eslogan</label>
+  </div>
+  <div class="fv-row mb-10">
+    <label class="fs-6 fw-bold form-label">Colores de la Marca</label>
+  </div>
+  <div class="fv-row mb-10">
+    <label class="fs-6 fw-bold form-label">Tipografía</label>
+  </div>
+  <div class="fv-row mb-10">
+    <label class="fs-6 fw-bold form-label">Redes Sociales</label>
+  </div>
+  <div class="fv-row mb-10">
+    <label class="fs-6 fw-bold form-label">Vista previa de la Marca</label>
+  </div>
+</div>

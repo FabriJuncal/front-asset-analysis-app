@@ -1,0 +1,84 @@
+<div class="pb-10 pb-lg-15">
+  <h2 class="fw-bolder d-flex align-items-center text-dark">
+    Elija el tipo de cuenta
+    <i
+      class="fas fa-exclamation-circle ms-2 fs-7"
+      ngbTooltip="La facturación se emite según el tipo de cuenta seleccionado"
+    ></i>
+  </h2>
+
+  <!-- <div class="text-gray-400 fw-bold fs-6">
+    If you need more info, please check out
+    <a href="#" class="link-primary fw-bolder"> Help Page </a>
+    .
+  </div> -->
+</div>
+
+<div class="fv-row" [formGroup]="form">
+  <div class="row">
+    <div class="col-lg-6">
+      <input
+        formControlName="accountType"
+        name="accountType"
+        type="radio"
+        class="btn-check"
+        id="kt_create_account_form_account_type_personal"
+        value="personal"
+      />
+      <label
+        class="
+          btn btn-outline btn-outline-dashed btn-outline-default
+          p-7
+          d-flex
+          align-items-center
+          mb-10
+        "
+        for="kt_create_account_form_account_type_personal"
+      >
+        <app-keenicon name="address-book" class="fs-1 me-5"></app-keenicon>
+        <span class="d-block fw-bold text-start">
+          <span class="text-dark fw-bolder d-block fs-4 mb-2"
+            >Cuenta Personal</span
+          >
+          <span class="text-gray-400 fw-bold fs-6">
+            Tené en cuenta que al crear una cuenta personal no dispondrá de las funcionalidades para gestionar cuentas de empleados.
+          </span>
+        </span>
+      </label>
+    </div>
+
+    <div class="col-lg-6">
+      <input
+        formControlName="accountType"
+        name="accountType"
+        type="radio"
+        class="btn-check"
+        id="kt_create_account_form_account_type_corporate"
+        value="corporate"
+      />
+      <label
+        class="
+          btn btn-outline btn-outline-dashed btn-outline-default
+          p-7
+          d-flex
+          align-items-center
+        "
+        for="kt_create_account_form_account_type_corporate"
+      >
+        <app-keenicon name="briefcase" class="fs-1 me-5"></app-keenicon>
+        <span class="d-block fw-bold text-start">
+          <span class="text-dark fw-bolder d-block fs-4 mb-2"
+            >Cuenta Empresa</span
+          >
+          <span class="text-gray-400 fw-bold fs-6">
+            Creá una cuenta empresa para poder gestionar la cuenta de tus empleados.
+          </span>
+        </span>
+      </label>
+    </div>
+
+    <div class="fv-plugins-message-container invalid-feedback">
+      <!-- <ErrorMessage name='accountType' /> -->
+    </div>
+  </div>
+</div>

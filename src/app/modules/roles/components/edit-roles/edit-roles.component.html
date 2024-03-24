@@ -1,0 +1,60 @@
+<ng-container *ngIf="isLoading">
+  <div class="progress progress-modal">
+    <div class="progress-bar progress-bar-striped progress-bar-animated bg-primary" role="progressbar"
+      style="width: 100%" aria-valuenow="100" aria-valuemin="0" aria-valuemax="100"></div>
+  </div>
+</ng-container>
+<div class="modal-content">
+  <div class="modal-header">
+    <div class="modal-title h4" id="example-modal-sizes-title-lg">
+      <i class="icon-2x text-dark-50 flaticon-price-tag mx-2"></i> Actualizando Rol:
+    </div>
+  </div>
+  <div class="cursor-default modal-body">
+    <ng-container *ngIf="isLoading$ | async">
+      <div class="overlay-layer bg-transparent">
+        <div class="spinner spinner-lg spinner-success" style="z-index: 9999"></div>
+      </div>
+    </ng-container>
+
+    <form class="form form-label-right">
+      <div class="form-group row">
+          <div class="col-12">
+              <label class="form-label">Nombres del Rol:</label>
+              <input type="text"
+              class="form-control form-control-solid form-control-lg"
+              name="name"
+              placeholder="Nombre"
+              autocomplete="off"
+              [class.is-invalid]="isValidName"
+              [(ngModel)]="name">
+          </div>
+      </div>
+    </form>
+</div>
+  <div class="modal-footer">
+    <button
+      type="button"
+      class="btn btn-light btn-elevate mr-2"
+      (click)="modal.dismiss()"
+    >
+      Cerrar
+    </button>
+    <button
+      type="button"
+      class="btn btn-primary btn-elevate mr-2"
+      (click)="save()"
+      [disabled]="(isLoading$ | async) === true"
+    >
+      <ng-container *ngIf="isLoading$ | async">
+        <span class="indicator-progress" [style.display]="'block'">
+          Guardando...
+          <span class="spinner-border spinner-border-sm align-middle ms-2"></span>
+        </span>
+      </ng-container>
+      <ng-container *ngIf="(isLoading$ | async) === 0">
+        <span class="indicator-label">Guardar</span>
+      </ng-container>
+    </button>
+  </div>
+</div>

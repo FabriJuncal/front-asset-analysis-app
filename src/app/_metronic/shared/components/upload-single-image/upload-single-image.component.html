@@ -1,0 +1,59 @@
+											<!--begin::Thumbnail settings-->
+											<div class="py-4">
+												<!--begin::Card header-->
+												<div *ngIf="options.title" class="card-header">
+													<!--begin::Card title-->
+													<div class="card-title">
+                            <label class="form-label">{{ options.title }}</label>
+													</div>
+													<!--end::Card title-->
+												</div>
+												<!--end::Card header-->
+												<!--begin::Card body-->
+												<div class="card-body text-center pt-0">
+													<!--begin::Image input-->
+													<!--begin::Image input placeholder-->
+													<!--end::Image input placeholder-->
+													<div [ngClass]="imageInputClass" [ngStyle]="{'background-image': 'url(' + imagePreview + ')'}">
+														<!--begin::Preview existing avatar-->
+														<div class="image-input-wrapper w-150px h-150px"></div>
+														<!--end::Preview existing avatar-->
+														<!--begin::Label-->
+														<label class="btn btn-icon btn-circle btn-active-color-primary w-25px h-25px bg-body shadow" data-kt-image-input-action="change" data-bs-toggle="tooltip" title="cambiar Imagen">
+															<i *ngIf="!uploadImage" class="ki-duotone ki-plus fs-7"></i>
+                              <i *ngIf="uploadImage" class="ki-duotone ki-pencil fs-7">
+																<span class="path1"></span>
+																<span class="path2"></span>
+															</i>
+															<!--begin::Inputs-->
+															<input type="file" name="avatar" accept=".png, .jpg, .jpeg" (change)="onImageSelected($event)"/>
+															<input type="hidden" name="avatar_remove" />
+															<!--end::Inputs-->
+														</label>
+														<!--end::Label-->
+														<!--begin::Cancel-->
+														<span class="btn btn-icon btn-circle btn-active-color-primary w-25px h-25px bg-body shadow" data-kt-image-input-action="cancel" data-bs-toggle="tooltip" title="Cancel avatar">
+															<i class="ki-duotone ki-cross fs-2">
+																<span class="path1"></span>
+																<span class="path2"></span>
+															</i>
+														</span>
+														<!--end::Cancel-->
+														<!--begin::Remove-->
+                            <span class="btn btn-icon btn-circle btn-color-muted btn-active-color-primary w-25px h-25px bg-body shadow"
+                            data-kt-image-input-action="remove"
+                            data-bs-toggle="tooltip"
+                            data-bs-dismiss="click"
+                            title="Remove avatar">
+                                <i class="ki-outline ki-cross fs-3"></i>
+                            </span>
+														<!--end::Remove-->
+													</div>
+													<!--end::Image input-->
+													<!--begin::Description-->
+													<div class="text-muted fs-7">{{ options.description }}</div>
+													<!--end::Description-->
+												</div>
+												<!--end::Card body-->
+											</div>
+											<!--end::Thumbnail settings-->

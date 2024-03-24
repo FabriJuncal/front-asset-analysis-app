@@ -1,0 +1,51 @@
+<div class="card-header border-0 pt-5 justify-content-end">
+  <!-- <h3 class="card-title align-items-start flex-column">
+    <span class="card-label fw-bolder fs-3 mb-1">New Arrivals</span>
+    <span class="text-muted mt-1 fw-bold fs-7">Over 500 new products</span>
+  </h3> -->
+  <div class="card-body container">
+    <!-- begin: Filtration form -->
+    <div class="form form-label-right">
+      <form [formGroup]="form" (ngSubmit)="onSearch()">
+        <div class="form-group">
+          <div class="col-lg-12 row">
+            <div *ngFor="let field of searchFields" class="mb-3 col-12 col-md-{{ field.size }} col-lg-{{ field.size }}">
+              <ng-container [ngSwitch]="field.type">
+                <div *ngSwitchCase="'inputText'">
+                  <input type="text" [placeholder]="field.placeholder" class="form-control inputText" [formControlName]="field.name">
+                </div>
+                <div *ngSwitchCase="'select'">
+                  <ng-select [formControlName]="field.name" [placeholder]="field.placeholder">
+                    <ng-option class="form-control" *ngFor="let option of field.options" [value]="option.value">{{ option.label }}</ng-option>
+                  </ng-select>
+                </div>
+                <small class="form-text text-muted">
+                  <b>{{ field.label.bold }}</b> {{ field.label.normal }}
+                </small>
+              </ng-container>
+            </div>
+          </div>
+        </div>
+        <div class="">
+          <div class="row mt-5 mt-lg-0 justify-content-center">
+            <div class="col-1">
+              <button class="btn btn-sm btn-primary" appTooltip data-bs-placement="top" data-bs-title="Filtrar">
+                <app-keenicon name="filter-search" type="outline"  class="text-white fs-2x"></app-keenicon>
+              </button>
+            </div>
+            <div class="col-1 ms-15 ms-md-5 ms-sm-10">
+              <a class="btn btn-sm btn-dark" appTooltip data-bs-placement="top" data-bs-title="Limpiar Filtro y Refrescar" (click)="clearFilterAndRefreshTable()">
+                <app-keenicon name="arrows-circle" type="outline" class="text-white fs-2x"></app-keenicon>
+              </a>
+            </div>
+            <div class="col-1 ms-15 ms-md-5 ms-sm-10">
+              <a class="btn btn-sm btn-primary" appTooltip data-bs-placement="top" data-bs-title="Crear" (click)="openFormAlta()">
+                <app-keenicon name="plus" class="text-white fs-2x"></app-keenicon>
+              </a>
+            </div>
+          </div>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,45 @@
+<div class="card-body py-3">
+  <!-- begin::Table container -->
+  <div class="table-responsive">
+    <!-- begin::Table -->
+    <table class="table align-middle gs-0 gy-4">
+      <!-- begin::Table head -->
+      <thead>
+        <tr class="fw-bolder text-muted bg-light" *ngFor="let field of fields">
+          <th class="ps-4 min-w-100px rounded-start">field.name</th>
+          <!-- <th class="min-w-100px">Status</th> -->
+          <th class="text-center rounded-center"></th>
+        </tr>
+      </thead>
+      <!-- end::Table head -->
+      <!-- begin::Table body -->
+      <tbody>
+        <tr *ngFor="let record of records">
+          <td class="ps-4 min-w-100px rounded-start">{{ record.value }}</td>
+
+          <!-- <td class="ps-4 min-w-100px rounded-start">
+            <span *ngIf="user.state === 1 || user.state === '1'" class="badge badge-light-success fs-7 fw-bold">ACTIVO</span>
+            <span *ngIf="user.state === 2 || user.state === '2'" class="badge badge-light-danger fs-7 fw-bold">INACTIVO</span>
+          </td> -->
+          <!-- <td class="ps-4 rounded-start">
+            <a
+              (click)="editRecord(record)"
+              appTooltip data-bs-placement="top" data-bs-title="Editar Usuario"
+              class="btn btn-icon btn-bg-light btn-active-color-primary btn-sm me-1">
+              <app-keenicon name="pencil" class="fs-3 text-info"></app-keenicon>
+            </a>
+            <a
+              (click)="deleteRecord(record)"
+              appTooltip data-bs-placement="top" data-bs-title="Eliminar Usuario"
+              class="btn btn-icon btn-bg-light btn-active-color-primary btn-sm">
+              <app-keenicon name="trash" class="fs-3 text-danger"></app-keenicon>
+            </a>
+          </td> -->
+        </tr>
+      </tbody>
+      <!-- end::Table body -->
+    </table>
+    <!-- end::Table -->
+  </div>
+  <!-- end::Table container -->
+</div>

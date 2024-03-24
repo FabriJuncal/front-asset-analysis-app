@@ -1,0 +1,19 @@
+<div class="mb-8">
+  <!--begin::Title-->
+  <h4 class="text-gray-700 w-bolder mb-0">{{ options.title }}</h4>
+  <!--end::Title-->
+  <!--begin::Section-->
+  <div class="my-2">
+    <!--begin::Row-->
+    <div class="d-flex align-items-center mb-3" *ngFor="let item of options.items" >
+      <!--begin::Bullet-->
+      <span class="bullet me-3"></span>
+      <!--end::Bullet-->
+      <!--begin::Label-->
+      <div class="text-gray-600 fw-semibold fs-6">{{ item }}</div>
+      <!--end::Label-->
+    </div>
+    <!--end::Row-->
+  </div>
+  <!--end::Section-->
+</div>

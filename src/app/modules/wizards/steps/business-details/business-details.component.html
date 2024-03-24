@@ -1,0 +1,83 @@
+<div class="pb-10 pb-lg-12">
+  <h2 class="fw-bolder text-dark">Detalles de su negocio</h2>
+  <!-- <div class="text-gray-400 fw-bold fs-6">
+    If you need more info, please check out
+    <a href="#" class="link-primary fw-bolder">Help Page</a>.
+  </div> -->
+</div>
+<div [formGroup]="form">
+  <div class="fv-row mb-10">
+    <label class="form-label required">Nombre de su negocio</label
+    ><input
+      name="businessName"
+      class="form-control form-control-lg form-control-solid"
+      formControlName="businessName"
+    />
+    <div
+      class="fv-plugins-message-container invalid-feedback"
+      *ngIf="
+        form.get('businessName')?.hasError('required') &&
+        form.get('businessName')?.touched
+      "
+    >
+      El nombre de su negocio es requerido
+    </div>
+  </div>
+  <div class="fv-row mb-10">
+    <label class="form-label required">Tipo de negocio</label
+    ><select
+      name="businessType"
+      class="form-select form-select-lg form-select-solid"
+      formControlName="businessType"
+    >
+      <option value="1">Restaurante/Cafetería</option>
+      <option value="2">Tienda Minorista</option>
+      <option value="3">Servicios Profesionales</option>
+      <option value="4">Comercio Electrónico</option>
+      <option value="5">Negocio de Alimentos para Llevar</option>
+      <option value="6">Hotel/Hostelería</option>
+      <option value="7">Entretenimiento/Eventos</option>
+      <option value="8">Salud/Médico</option>
+      <option value="9">Artes y Oficios</option>
+      <option value="10">Otro</option>
+    </select>
+  </div>
+  <div class="fv-row mb-10">
+    <label class="form-label">Descripción de su negocio</label
+    ><textarea
+      name="businessDescription"
+      class="form-control form-control-lg form-control-solid"
+      rows="3"
+      formControlName="businessDescription"
+    ></textarea>
+  </div>
+  <div class="fv-row mb-0">
+    <label class="fs-6 fw-bold form-label required">Correo Electrónico</label
+    ><input
+      name="businessEmail"
+      class="form-control form-control-lg form-control-solid"
+      formControlName="businessEmail"
+    />
+    <div
+      class="fv-plugins-message-container invalid-feedback"
+      *ngIf="
+        form.get('businessEmail')?.hasError('required') &&
+        form.get('businessEmail')?.touched
+      "
+    >
+      El correo electrónico es requerido
+    </div>
+    <div
+      class="fv-plugins-message-container invalid-feedback"
+      *ngIf="
+        form.get('businessEmail')?.hasError('email') &&
+        form.get('businessEmail')?.touched
+      "
+    >
+      Formato de correo electrónico incorrecto
+    </div>
+    <div class="form-text">
+      Se utilizará este correo electrónico para mostrar a los clientes en su estado de cuenta.
+    </div>
+  </div>
+</div>
