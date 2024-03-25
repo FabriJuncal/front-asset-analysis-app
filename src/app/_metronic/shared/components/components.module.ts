@@ -16,6 +16,7 @@ import { SharedModule } from '../shared.module';
 import { DynamicSearchFormComponent } from './dynamic-search-form/dynamic-search-form.component';
 import { NgSelectModule } from '@ng-select/ng-select';
 import { DynamicTableComponent } from './dynamic-table/dynamic-table.component';
+import { TradingviewGraphicWidgetComponent } from './tradingview-graphic-widget/tradingview-graphic-widget.component';
 
 
 const DEFAULT_DROPZONE_CONFIG: DropzoneConfigInterface = {
@@ -36,7 +37,8 @@ const DEFAULT_DROPZONE_CONFIG: DropzoneConfigInterface = {
     InfoMessageComponent,
     ColoredCircleComponent,
     DynamicSearchFormComponent,
-    DynamicTableComponent
+    DynamicTableComponent,
+    TradingviewGraphicWidgetComponent
   ],
   imports: [
     CommonModule,
@@ -59,7 +61,8 @@ const DEFAULT_DROPZONE_CONFIG: DropzoneConfigInterface = {
     InfoMessageComponent,
     ColoredCircleComponent,
     DynamicSearchFormComponent,
-    DynamicTableComponent
+    DynamicTableComponent,
+    TradingviewGraphicWidgetComponent
   ],
   providers: [
     {
