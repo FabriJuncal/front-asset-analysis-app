@@ -17,6 +17,13 @@ ng generate component modules/users/components/edit-users
 ng generate component modules/users/components/delete-users
 ng generate class modules/users/models/users.model
 
+ng generate module modules/crypto-asset --routing
+ng generate component modules/crypto-asset
+ng generate service modules/crypto-asset/services/crypto-asset
+ng generate component modules/crypto-asset/technical-analysis
+ng generate component modules/crypto-asset/fundamental-analysis
+ng generate class modules/crypto-asset/models/crypto-asset.model
+
 
 ng generate interface _metronic/shared/interfaces/image
 ng generate component _metronic/shared/components/tab
@@ -29,11 +36,14 @@ ng generate component _metronic/shared/components/colored-circle
 ng generate component _metronic/shared/components/dynamic-search-form
 ng generate component _metronic/shared/components/dynamic-table
 ng generate component _metronic/shared/components/tradingview-graphic-widget
+ng generate component _metronic/shared/components/search
 
 ng generate service _metronic/shared/services/HttpRequestState
 ng generate service _metronic/shared/services/image
+ng generate service _metronic/shared/services/tradingview
 ng generate service _metronic/shared/components/dynamic-search-form/dynamic-search-form
 ng generate service _metronic/shared/components/dynamic-table/dynamic-table
+
 
 ng generate class _metronic/shared/components/dynamic-search-form/dynamic-search-form.model
 ng generate class _metronic/shared/components/dynamic-table/dynamic-table.model

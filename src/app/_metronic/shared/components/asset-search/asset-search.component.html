@@ -1,0 +1,143 @@
+<div class="p-10">
+  <!--begin::Content-->
+  <div class="text-center mb-13">
+    <h1 class="mb-3">{{ title }}</h1>
+    <div class="text-muted fw-semibold fs-5">{{ subTitle }}</div>
+  </div>
+  <!--end::Content-->
+  <!--begin::Search-->
+  <div id="kt_modal_users_search_handler" data-kt-search-keypress="true" data-kt-search-min-length="2" data-kt-search-enter="enter" data-kt-search-layout="inline">
+    <!--begin::Form-->
+    <form data-kt-search-element="form" class="w-100 position-relative mb-5" autocomplete="off">
+      <!--begin::Hidden input(Added to disable form autocomplete)-->
+      <input type="hidden" />
+      <!--end::Hidden input-->
+      <!--begin::Icon-->
+      <i class="ki-duotone ki-magnifier fs-2 fs-lg-1 text-gray-500 position-absolute top-50 ms-5 translate-middle-y">
+        <span class="path1"></span>
+        <span class="path2"></span>
+      </i>
+      <!--end::Icon-->
+      <!--begin::Input-->
+      <input type="text" class="form-control form-control-lg form-control-solid px-15" name="search"
+      [(ngModel)]="searchText" (keyup)="onKeyUp()" placeholder="{{ searchPlaceholder }}" data-kt-search-element="input" />
+      <!--end::Input-->
+      <!--begin::Spinner-->
+      <span class="position-absolute top-50 end-0 translate-middle-y lh-0 d-none me-5" data-kt-search-element="spinner">
+        <span class="spinner-border h-15px w-15px align-middle text-muted"></span>
+      </span>
+
+      <ng-container *ngIf="isLoading$ | async">
+        <app-loader class="position-absolute top-50 end-0 translate-middle-y lh-0 me-5" size="sm"></app-loader>
+      </ng-container>
+      <!--end::Spinner-->
+      <!--begin::Reset-->
+      <span class="btn btn-flush btn-active-color-primary position-absolute top-50 end-0 translate-middle-y lh-0 me-5 d-none" data-kt-search-element="clear">
+        <i class="ki-duotone ki-cross fs-2 fs-lg-1 me-0">
+          <span class="path1"></span>
+          <span class="path2"></span>
+        </i>
+      </span>
+      <!--end::Reset-->
+    </form>
+    <!--end::Form-->
+    <!--begin::Wrapper-->
+    <div class="py-5">
+      <!--begin::Suggestions-->
+      <div data-kt-search-element="suggestions">
+        <!--begin::Heading-->
+        <h3 class="fw-semibold mb-5">Recently searched:</h3>
+        <!--end::Heading-->
+        <!--begin::Users-->
+        <div class="mh-375px scroll-y me-n7 pe-7">
+          <!--begin::User-->
+          <a href="#" *ngFor="let item of recentSearches" class="d-flex align-items-center p-3 rounded bg-state-light bg-state-opacity-50 mb-1">
+            <!--begin::Info-->
+            <div class="d-flex align-items-center">
+              <!--begin::Avatar-->
+              <div class="symbol symbol-35px symbol-circle">
+                <img alt="Pic" src="{{ item.logo }}" />
+              </div>
+              <!--end::Avatar-->
+              <!--begin::Details-->
+              <div class="ms-5">
+                <a href="#" class="fs-5 fw-bold text-gray-900 text-hover-primary mb-2">{{ item.parCripto }}</a>
+                <div class="fw-semibold text-muted">{{ item.exchange }}</div>
+              </div>
+              <!--end::Details-->
+            </div>
+            <!--end::Info-->
+          </a>
+          <!--end::User-->
+        </div>
+        <!--end::Users-->
+      </div>
+      <!--end::Suggestions-->
+      <!--begin::Results(add d-none to below element to hide the users list by default)-->
+      <div data-kt-search-element="results" class="d-none">
+        <!--begin::Users-->
+        <div class="mh-375px scroll-y me-n7 pe-7">
+          <!--begin::User-->
+          <div class="rounded d-flex flex-stack bg-active-lighten p-4" *ngFor="let user of users" [attr.data-user-id]="user.id">
+            <!--begin::Details-->
+            <div class="d-flex align-items-center">
+              <!--begin::Checkbox-->
+              <label class="form-check form-check-custom form-check-solid me-5">
+                <input class="form-check-input" type="checkbox" name="users" data-kt-check="true" [attr.data-kt-check-target]="'[data-user-id=' + user.id + ']'" [value]="user.id" />
+              </label>
+              <!--end::Checkbox-->
+              <!--begin::Avatar-->
+              <div class="symbol symbol-35px symbol-circle">
+                <img alt="Pic" src="{{ user.avatar }}" />
+              </div>
+              <!--end::Avatar-->
+              <!--begin::Details-->
+              <div class="ms-5">
+                <a href="#" class="fs-5 fw-bold text-gray-900 text-hover-primary mb-2">{{ user.name }}</a>
+                <div class="fw-semibold text-muted">{{ user.email }}</div>
+              </div>
+              <!--end::Details-->
+            </div>
+            <!--end::Details-->
+            <!--begin::Access menu-->
+            <div class="ms-2 w-100px">
+              <select class="form-select form-select-solid form-select-sm" data-control="select2" data-hide-search="true">
+                <option *ngFor="let role of userRoles" [value]="role.value" [selected]="role.value === user.role">{{ role.label }}</option>
+              </select>
+            </div>
+            <!--end::Access menu-->
+          </div>
+          <!--end::User-->
+          <!--begin::Separator-->
+          <div class="border-bottom border-gray-300 border-bottom-dashed"></div>
+          <!--end::Separator-->
+        </div>
+        <!--end::Users-->
+        <!--begin::Actions-->
+        <div class="d-flex flex-center mt-15">
+          <button type="reset" id="kt_modal_users_search_reset" data-bs-dismiss="modal" class="btn btn-active-light me-3">Cancel</button>
+          <button type="submit" id="kt_modal_users_search_submit" class="btn btn-primary">{{ addButtonLabel }}</button>
+        </div>
+        <!--end::Actions-->
+      </div>
+      <!--end::Results-->
+      <!--begin::Empty-->
+      <div data-kt-search-element="empty" class="text-center d-none">
+        <!--begin::Message-->
+        <div class="fw-semibold py-10">
+          <div class="text-gray-600 fs-3 mb-2">{{ emptyMessage }}</div>
+          <div class="text-muted fs-6">{{ emptySubMessage }}</div>
+        </div>
+        <!--end::Message-->
+        <!--begin::Illustration-->
+        <div class="text-center px-5">
+          <img src="assets/media/illustrations/sketchy-1/1.png" alt="" class="w-100 h-200px h-sm-325px" />
+        </div>
+        <!--end::Illustration-->
+      </div>
+      <!--end::Empty-->
+    </div>
+    <!--end::Wrapper-->
+  </div>
+  <!--end::Search-->
+</div>
