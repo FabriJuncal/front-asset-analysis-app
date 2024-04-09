@@ -1,6 +1,6 @@
 <div>
-  <span class="indicator-progress loader mt-20 text-center" [style.display]="'block'">
-    Espere por favor...
-    <span class="spinner-border spinner-border-sm align-middle ms-2"></span>
+  <span class="indicator-progress loader text-center d-flex justify-content-center" [style]="styleComponent">
+    <p *ngIf="isText">Espere por favor...</p>
+    <span class="spinner-border {{ size === 'sm' ? 'spinner-border-sm' : ''}} align-middle ms-2"></span>
   </span>
 </div>
