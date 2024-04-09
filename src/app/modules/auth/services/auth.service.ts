@@ -22,7 +22,7 @@ export class AuthService implements OnDestroy {
   currentUser$: Observable<UserType>;
   currentUserSubject: BehaviorSubject<UserType>;
 
-  idTypeUser = 2;
+  idTypeUser = 1;
   user: any;
   token: string;
 
