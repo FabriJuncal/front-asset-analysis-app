@@ -1,4 +1,4 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, EventEmitter, Input, OnInit, Output, output } from '@angular/core';
 import { BarStyles, CONTAINER_ID, IntervalTypes, ITradingViewWidget, SCRIPT_ID, Themes } from './tradingview-graphic-widget.model';
 
 // Assuming TradingView is loaded globally (if not, consider using a service)
@@ -7,7 +7,7 @@ declare var TradingView: any;
 @Component({
   selector: 'app-tradingview-graphic-widget',
   template: `
-    <section [id]="containerId"> </section>
+    <section [id]="containerId" style="height: 500px;"> </section>
   `,
   styles: []
 })
@@ -16,13 +16,12 @@ export class TradingviewGraphicWidgetComponent implements OnInit {
   private _widgetConfig!: ITradingViewWidget;
   private _defaultConfig: ITradingViewWidget = {
     symbol: 'BINANCE:BTCUSDT',
-    allow_symbol_change: true,
-    autosize: false,
+    allow_symbol_change: false,
+    autosize: true,
     enable_publishing: false,
-    height: 600,
-    hideideas: true,
+    hideideas: false,
     hide_legend: false,
-    hide_side_toolbar: true,
+    hide_side_toolbar: false,
     hide_top_toolbar: false,
     interval: IntervalTypes.D,
     locale: 'en',
@@ -33,8 +32,9 @@ export class TradingviewGraphicWidgetComponent implements OnInit {
     timezone: 'Etc/UTC',
     toolbar_bg: '#F1F3F6',
     widgetType: 'widget',
-    width: 1100,
-    withdateranges: false
+    withdateranges: false,
+    // width: 1100,
+    // height: 500,
   };
 
   style: {} = {};
@@ -45,6 +45,8 @@ export class TradingviewGraphicWidgetComponent implements OnInit {
       this.cleanWidget();
       this.initWidget();
    }
+
+   @Output() symbol: EventEmitter<any> = new EventEmitter();
 
    get widgetConfig (): ITradingViewWidget {
     return this._widgetConfig || this._defaultConfig;
@@ -84,10 +86,13 @@ export class TradingviewGraphicWidgetComponent implements OnInit {
       };
     }
     /* global TradingView */
-    if(!!widgetType)
+    if(!!widgetType){
       new TradingView[widgetType](config);
-    else
+      // this.symbol.emit(this.widgetConfig);
+    }
+    else{
       console.error(`Can not create "TradingView", because "widgetType" is missing`)
+    }
   };
 
   appendScript (onload : (() => any)) {
@@ -147,6 +152,10 @@ export class TradingviewGraphicWidgetComponent implements OnInit {
 
   getContainer () {
     return document.getElementById(this.containerId);
+  }
+
+  onClick(){
+    console.log('onClick->', this.widgetConfig);
   }
 
 
