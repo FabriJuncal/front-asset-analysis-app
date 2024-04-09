@@ -1,0 +1,12 @@
+<button class="btn btn-sm btn-primary" placement="top" [ngbTooltip]="'Haz click para buscar una criptomoneda'" (click)="openAssetSearchModal()">Buscar Criptomoneda</button>
+<div class="card mb-5 mb-8 ps-7 pe-7 py-3 pb-3" style="
+height: 500px;">
+  <app-tab-group>
+    <app-tab title="Análisis Técnico">
+      <app-technical-analysis></app-technical-analysis>
+    </app-tab>
+    <app-tab title="Análisis Fundamental">
+      <app-fundamental-analysis></app-fundamental-analysis>
+    </app-tab>
+  </app-tab-group>
+</div>

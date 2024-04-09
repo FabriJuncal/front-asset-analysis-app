@@ -24,6 +24,12 @@ const Routing: Routes = [
     // data: { layout: 'light-sidebar' }, // Agrega el tema light al módulo
   },
   {
+    path: 'crypto-asset',
+    loadChildren: () =>
+      import('../modules/crypto-asset/crypto-asset.module').then((m) => m.CryptoAssetModule),
+    // data: { layout: 'light-sidebar' }, // Agrega el tema light al módulo
+  },
+  {
     path: '',
     redirectTo: '/dashboard',
     pathMatch: 'full',
