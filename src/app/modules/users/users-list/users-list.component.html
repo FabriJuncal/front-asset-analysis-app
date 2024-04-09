@@ -3,7 +3,7 @@
 </div>
 
 <ng-container *ngIf="isLoading$ | async">
-  <app-loader></app-loader>
+  <app-loader [styleComponent]="{'margin-top': '20%'}"></app-loader>
 </ng-container>
 <ng-container *ngIf="(isLoading$ | async) === 0">
   <div class="card mb-5 mb-xl-8">
