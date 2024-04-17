@@ -2,7 +2,7 @@
   <!--begin::Content-->
   <div class="text-center mb-13">
     <h1 class="mb-3">{{ title }}</h1>
-    <div class="text-muted fw-semibold fs-5">{{ subTitle }}</div>
+    <div class="text-muted fw-semibold fs-5" *ngIf="subTitle">{{ subTitle }}</div>
   </div>
   <!--end::Content-->
   <!--begin::Search-->
@@ -44,24 +44,27 @@
     <!--begin::Wrapper-->
     <div class="py-5">
       <!--begin::Suggestions-->
-      <div data-kt-search-element="suggestions">
+      <div *ngIf="!assets && !emptyMessage">
         <!--begin::Heading-->
-        <h3 class="fw-semibold mb-5">Recently searched:</h3>
+        <h3 class="fw-semibold mb-5">Busquedas Recientes:</h3>
         <!--end::Heading-->
         <!--begin::Users-->
         <div class="mh-375px scroll-y me-n7 pe-7">
           <!--begin::User-->
           <a href="#" *ngFor="let item of recentSearches" class="d-flex align-items-center p-3 rounded bg-state-light bg-state-opacity-50 mb-1">
             <!--begin::Info-->
-            <div class="d-flex align-items-center">
+            <div class="d-flex align-items-center w-100">
               <!--begin::Avatar-->
               <div class="symbol symbol-35px symbol-circle">
                 <img alt="Pic" src="{{ item.logo }}" />
               </div>
               <!--end::Avatar-->
               <!--begin::Details-->
-              <div class="ms-5">
-                <a href="#" class="fs-5 fw-bold text-gray-900 text-hover-primary mb-2">{{ item.parCripto }}</a>
+              <div class="ms-5 d-flex justify-content-between w-100">
+                <div>
+                  <a href="#" class="fs-5 fw-bold text-gray-900 text-hover-primary mb-2">{{ item.parCripto }}</a>
+                  <div class="fw-semibold text-muted">{{ item.parCriptoName }}</div>
+                </div>
                 <div class="fw-semibold text-muted">{{ item.exchange }}</div>
               </div>
               <!--end::Details-->
@@ -74,37 +77,38 @@
       </div>
       <!--end::Suggestions-->
       <!--begin::Results(add d-none to below element to hide the users list by default)-->
-      <div data-kt-search-element="results" class="d-none">
+      <div *ngIf="assets">
         <!--begin::Users-->
         <div class="mh-375px scroll-y me-n7 pe-7">
           <!--begin::User-->
-          <div class="rounded d-flex flex-stack bg-active-lighten p-4" *ngFor="let user of users" [attr.data-user-id]="user.id">
+          <div class="rounded d-flex flex-stack bg-active-lighten p-4" *ngFor="let asset of assets">
             <!--begin::Details-->
-            <div class="d-flex align-items-center">
-              <!--begin::Checkbox-->
-              <label class="form-check form-check-custom form-check-solid me-5">
-                <input class="form-check-input" type="checkbox" name="users" data-kt-check="true" [attr.data-kt-check-target]="'[data-user-id=' + user.id + ']'" [value]="user.id" />
-              </label>
-              <!--end::Checkbox-->
+            <div class="d-flex align-items-center w-100">
               <!--begin::Avatar-->
               <div class="symbol symbol-35px symbol-circle">
-                <img alt="Pic" src="{{ user.avatar }}" />
+                <img  *ngIf="asset.logos.Crypto1" alt="Pic" src="{{ asset.logos.Crypto1 }}" />
+                <img *ngIf="asset.logos.Crypto2" alt="Pic" src="{{ asset.logos.Crypto2 }}" />
               </div>
               <!--end::Avatar-->
               <!--begin::Details-->
-              <div class="ms-5">
-                <a href="#" class="fs-5 fw-bold text-gray-900 text-hover-primary mb-2">{{ user.name }}</a>
-                <div class="fw-semibold text-muted">{{ user.email }}</div>
+              <div class="ms-5 d-flex justify-content-between w-100">
+                <a href="#" class="fs-5 fw-bold text-gray-900 text-hover-primary mb-2">{{ asset.symbol }}</a>
+                <!-- <div class="fw-semibold text-muted">{{ asset.exchange }}</div> -->
+                <div class="fw-semibold text-muted">{{ asset.investment_platform.name }}</div>
+                <img *ngIf="asset.logos.Crypto2" alt="Pic" src="{{ asset.investment_platform.logo }}" />
+                <div class="symbol symbol-35px symbol-circle">
+                  <img *ngIf="asset.logos.Crypto2" alt="Pic" src="{{ asset.investment_platform.logo }}" />
+                </div>
               </div>
               <!--end::Details-->
             </div>
             <!--end::Details-->
             <!--begin::Access menu-->
-            <div class="ms-2 w-100px">
+            <!-- <div class="ms-2 w-100px">
               <select class="form-select form-select-solid form-select-sm" data-control="select2" data-hide-search="true">
-                <option *ngFor="let role of userRoles" [value]="role.value" [selected]="role.value === user.role">{{ role.label }}</option>
+                <option *ngFor="let role of userRoles" [value]="role.value" [selected]="role.value === asset.role">{{ role.label }}</option>
               </select>
-            </div>
+            </div> -->
             <!--end::Access menu-->
           </div>
           <!--end::User-->
@@ -113,20 +117,14 @@
           <!--end::Separator-->
         </div>
         <!--end::Users-->
-        <!--begin::Actions-->
-        <div class="d-flex flex-center mt-15">
-          <button type="reset" id="kt_modal_users_search_reset" data-bs-dismiss="modal" class="btn btn-active-light me-3">Cancel</button>
-          <button type="submit" id="kt_modal_users_search_submit" class="btn btn-primary">{{ addButtonLabel }}</button>
-        </div>
-        <!--end::Actions-->
       </div>
       <!--end::Results-->
       <!--begin::Empty-->
-      <div data-kt-search-element="empty" class="text-center d-none">
+      <div class="text-center" *ngIf="emptyMessage">
         <!--begin::Message-->
         <div class="fw-semibold py-10">
           <div class="text-gray-600 fs-3 mb-2">{{ emptyMessage }}</div>
-          <div class="text-muted fs-6">{{ emptySubMessage }}</div>
+          <!-- <div class="text-muted fs-6">{{ emptySubMessage }}</div> -->
         </div>
         <!--end::Message-->
         <!--begin::Illustration-->

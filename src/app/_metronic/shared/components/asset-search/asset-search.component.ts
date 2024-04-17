@@ -1,6 +1,6 @@
-import { Component } from '@angular/core';
+import { Component, Input } from '@angular/core';
 import { Observable, Subject } from 'rxjs';
-import { debounceTime, delay, startWith } from 'rxjs/operators';
+import { debounceTime} from 'rxjs/operators';
 import { CryptoAssetService } from 'src/app/modules/crypto-asset/services/crypto-asset.service';
 import { HttpRequestStateService } from '../../services/http-request-state.service';
 
@@ -12,6 +12,8 @@ import { HttpRequestStateService } from '../../services/http-request-state.servi
 })
 export class AssetSearchComponent {
 
+  @Input() assetSearchConfig: any[] = []; // Array que contendrá los datos a mostrar
+
   private searchTextDebounce: Subject<string> = new Subject<string>();
 
   // Se crea esta variable privada para almacenar la última cadena de búsqueda introducida por el usuario.
@@ -20,35 +22,30 @@ export class AssetSearchComponent {
 
   isLoading$: Observable<number>;
   isLoading = false;
-  title: string = 'Search Users';
-  subTitle: string = 'Invite Collaborators To Your Project';
-  searchPlaceholder: string = 'Search by username, full name or email...';
+  title: string = 'Búsqueda de Criptomonedas';
+  subTitle: string = '';
+  searchPlaceholder: string = 'Buscá por el símbolo o nombre de la criptomoneda';
   addButtonLabel: string = 'Add Selected Users';
-  emptyMessage: string = 'No users found';
+  emptyMessage: string = '';
   emptySubMessage: string = 'Try to search by username, full name or email...';
   searchText: string = '';
   recentSearches: any[] = [
     {id: 1, logo: 'https://s3-symbol-logo.tradingview.com/provider/binance.svg', parCripto: 'BTC/USDT', exchange: 'Binance'},
     {id: 2, logo: 'https://s3-symbol-logo.tradingview.com/provider/binance.svg', parCripto: 'ETH/USDT', exchange: 'Binance'},
   ];
-  users: any[] = [
-    {id: 1, avatar: 'https://s3-symbol-logo.tradingview.com/provider/binance.svg', name: 'Emma Smith', email: 'emma_smith@gmail.com'},
-    {id: 2, avatar: 'https://s3-symbol-logo.tradingview.com/provider/binance.svg', name: 'Melody Macy', email: 'melody_macy@gmail.com'},
-    {id: 3, avatar: 'https://s3-symbol-logo.tradingview.com/provider/binance.svg', name: 'Max Smith', email: 'max_smith@gmail.com'},
-    {id: 4, avatar: 'https://s3-symbol-logo.tradingview.com/provider/binance.svg', name: 'Sean Bean', email: 'sean_bean@gmail.com'},
-  ]; // Array para almacenar los resultados de la búsqueda
-  userRoles: any[] = [
-    { label: 'Guest', value: 1 },
-    { label: 'Owner', value: 2 },
-    { label: 'Can Edit', value: 3 }
-  ];
+  assets: any; // Array para almacenar los resultados de la búsqueda
+  // userRoles: any[] = [
+  //   { label: 'Guest', value: 1 },
+  //   { label: 'Owner', value: 2 },
+  //   { label: 'Can Edit', value: 3 }
+  // ];
 
   constructor(
     private cryptoAssetService: CryptoAssetService,
     private _httpRequestState: HttpRequestStateService,
   ) {
     this.searchTextDebounce.pipe(
-      debounceTime(3000)
+      debounceTime(1000)
     ).subscribe(() => {
       this.search();
     });
@@ -80,6 +77,14 @@ export class AssetSearchComponent {
     this.cryptoAssetService.getCryptosPairs(this.searchText)
       .subscribe((data) => {
         console.log('this.cryptoAssetService.getCryptosPairs->', data);
+
+        if(data?.error){
+          this.emptyMessage = data?.error
+          this.assets = [];
+          return;
+        }
+        this.emptyMessage = '';
+        this.assets = data.cryptosPairs;
 
         // Lógica para realizar la búsqueda utilizando data
         // y almacenar los resultados en this.users
