@@ -1,8 +1,8 @@
 <div class="p-10">
   <!--begin::Content-->
   <div class="text-center mb-13">
-    <h1 class="mb-3">{{ title }}</h1>
-    <div class="text-muted fw-semibold fs-5" *ngIf="subTitle">{{ subTitle }}</div>
+    <h1 class="mb-3">{{ assetSearchConfig.title }}</h1>
+    <div class="text-muted fw-semibold fs-5" *ngIf="assetSearchConfig.subTitle">{{ assetSearchConfig.subTitle }}</div>
   </div>
   <!--end::Content-->
   <!--begin::Search-->
@@ -20,7 +20,7 @@
       <!--end::Icon-->
       <!--begin::Input-->
       <input type="text" class="form-control form-control-lg form-control-solid px-15" name="search"
-      [(ngModel)]="searchText" (keyup)="onKeyUp()" placeholder="{{ searchPlaceholder }}" data-kt-search-element="input" />
+      [(ngModel)]="searchText" (keyup)="onKeyUp()" placeholder="{{ assetSearchConfig.searchPlaceholder }}" data-kt-search-element="input" />
       <!--end::Input-->
       <!--begin::Spinner-->
       <span class="position-absolute top-50 end-0 translate-middle-y lh-0 d-none me-5" data-kt-search-element="spinner">
@@ -44,7 +44,7 @@
     <!--begin::Wrapper-->
     <div class="py-5">
       <!--begin::Suggestions-->
-      <div *ngIf="!assets && !emptyMessage">
+      <div *ngIf="!assets && !assetSearchConfig.emptyMessage">
         <!--begin::Heading-->
         <h3 class="fw-semibold mb-5">Busquedas Recientes:</h3>
         <!--end::Heading-->
@@ -86,18 +86,19 @@
             <div class="d-flex align-items-center w-100">
               <!--begin::Avatar-->
               <div class="symbol symbol-35px symbol-circle">
-                <img  *ngIf="asset.logos.Crypto1" alt="Pic" src="{{ asset.logos.Crypto1 }}" />
-                <img *ngIf="asset.logos.Crypto2" alt="Pic" src="{{ asset.logos.Crypto2 }}" />
+                <img  *ngIf="asset.logos.asset1" alt="Pic" src="{{ asset.logos.asset1 }}" />
+                <img *ngIf="asset.logos.asset2" alt="Pic" src="{{ asset.logos.asset2 }}" />
               </div>
               <!--end::Avatar-->
               <!--begin::Details-->
-              <div class="ms-5 d-flex justify-content-between w-100">
-                <a href="#" class="fs-5 fw-bold text-gray-900 text-hover-primary mb-2">{{ asset.symbol }}</a>
-                <!-- <div class="fw-semibold text-muted">{{ asset.exchange }}</div> -->
-                <div class="fw-semibold text-muted">{{ asset.investment_platform.name }}</div>
-                <img *ngIf="asset.logos.Crypto2" alt="Pic" src="{{ asset.investment_platform.logo }}" />
+              <div class="ms-5 w-100">
+                <div class="fs-5 fw-bold text-gray-900 mb-2">{{ asset.symbols }}</div>
+                <div class="fw-semibold text-muted">{{ asset.names }}</div>
+              </div>
+              <div class="d-flex justify-content-end ms-5">
+                <div class="align-content-center fw-semibold text-muted me-2">{{ asset.investmentPlatform.name }}</div>
                 <div class="symbol symbol-35px symbol-circle">
-                  <img *ngIf="asset.logos.Crypto2" alt="Pic" src="{{ asset.investment_platform.logo }}" />
+                  <img class="align-content-center" *ngIf="asset.investmentPlatform.logo" alt="Pic" src="{{ asset.investmentPlatform.logo }}" />
                 </div>
               </div>
               <!--end::Details-->
@@ -120,10 +121,10 @@
       </div>
       <!--end::Results-->
       <!--begin::Empty-->
-      <div class="text-center" *ngIf="emptyMessage">
+      <div class="text-center" *ngIf="assetSearchConfig.emptyMessage">
         <!--begin::Message-->
         <div class="fw-semibold py-10">
-          <div class="text-gray-600 fs-3 mb-2">{{ emptyMessage }}</div>
+          <div class="text-gray-600 fs-3 mb-2">{{ assetSearchConfig.emptyMessage }}</div>
           <!-- <div class="text-muted fs-6">{{ emptySubMessage }}</div> -->
         </div>
         <!--end::Message-->
