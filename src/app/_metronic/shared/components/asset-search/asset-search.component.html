@@ -44,7 +44,7 @@
     <!--begin::Wrapper-->
     <div class="py-5">
       <!--begin::Suggestions-->
-      <div *ngIf="!assets && !assetSearchConfig.emptyMessage">
+      <div *ngIf="!assets.length && recentSearches">
         <!--begin::Heading-->
         <h3 class="fw-semibold mb-5">Busquedas Recientes:</h3>
         <!--end::Heading-->

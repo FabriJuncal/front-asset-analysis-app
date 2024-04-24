@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { Observable, Subject, Subscription } from 'rxjs';
 import { debounceTime} from 'rxjs/operators';
 import { HttpRequestStateService } from '../../services/http-request-state.service';
@@ -11,7 +11,7 @@ import { AssetSearchService } from './asset-search.service';
   templateUrl: './asset-search.component.html',
   styleUrl: './asset-search.component.scss'
 })
-export class AssetSearchComponent {
+export class AssetSearchComponent implements OnInit {
 
   private searchTextDebounce: Subject<string> = new Subject<string>();
 
@@ -51,11 +51,17 @@ export class AssetSearchComponent {
     });
 
     this.assetDataSubscription = this._assetSearchService.getData().subscribe((data) =>{
+      console.log('this._assetSearchService.getData()', data);
       this.assets = data;
     });
 
     this.recentSearchesSubscription = this._assetSearchService.getRecentSearches().subscribe((searches) =>{
       this.recentSearches = searches;
+    });
+
+    this.recentSearchesSubscription = this._assetSearchService.getTextSearch().subscribe((searches) =>{
+      console.log('v->', this.assets.length);
+      this.searchText = searches;
     });
 
     // Cargar las búsquedas recientes desde el localStorage
@@ -78,6 +84,8 @@ export class AssetSearchComponent {
 
   private search(): void {
     if (!this.searchText) return;
+
+    this._assetSearchService.addTextSearch(this.searchText);
   }
 
   // Método para guardar la búsqueda reciente
