@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { AssetSearchComponent } from '../../_metronic/shared/components/asset-search/asset-search.component';
 import { AssetSearchService } from '../../_metronic/shared/components/asset-search/asset-search.service';
@@ -11,7 +11,7 @@ import { AssetSearchModel } from '../../_metronic/shared/components/asset-search
   templateUrl: './crypto-asset.component.html',
   styleUrl: './crypto-asset.component.scss'
 })
-export class CryptoAssetComponent {
+export class CryptoAssetComponent implements OnInit{
 
   crypto: any;
   AssetSearchSetting: AssetSearchModel;
@@ -19,9 +19,16 @@ export class CryptoAssetComponent {
 
   constructor(
     private modelService: NgbModal,
-    private assetSearchService: AssetSearchService,
+    private _assetSearchService: AssetSearchService,
     private cryptoAssetService: CryptoAssetService
   ){}
+
+  ngOnInit(){
+    this.initComponents();
+    this._assetSearchService.getTextSearch().subscribe((searchText) => {
+      this.searchCryptosPairs(searchText);
+    });
+  }
 
   openAssetSearchModal(): void{
     const modalRef = this.modelService.open(AssetSearchComponent, { centered: true, size: 'lg' });
@@ -39,26 +46,13 @@ export class CryptoAssetComponent {
     // });
   }
 
-  // searchCryptosPairs(){
-  //   this.cryptoAssetService.getCryptosPairs(this.searchText)
-  //   .subscribe((data) => {
-  //     console.log('this.cryptoAssetService.getCryptosPairs->', data);
-
-  //     // if(data?.error){
-  //     //   this.emptyMessage = data?.error
-  //     //   this.assets = [];
-  //     //   return;
-  //     // }
-  //     // this.emptyMessage = '';
-  //     // this.assets = data.cryptosPairs;
-
-  //     // Lógica para realizar la búsqueda utilizando data
-  //     // y almacenar los resultados en this.users
-  //     // ...
-  //     // Almacenar la búsqueda reciente
-  //     // this.saveRecentSearch(this.searchText);
-  //   });
-  // }
+  searchCryptosPairs(searchCrypto: string){
+    this.cryptoAssetService.getCryptosPairs(searchCrypto)
+    .subscribe((data) => {
+      console.log('this.cryptoAssetService.getCryptosPairs->', data);
+      this._assetSearchService.addData(data.cryptosPairs);
+    });
+  }
 
   initComponents(){
 
@@ -76,7 +70,7 @@ export class CryptoAssetComponent {
       {id: 2, logo: 'https://s3-symbol-logo.tradingview.com/provider/binance.svg', parCripto: 'ETH/USDT', exchange: 'Binance'}
     ]
 
-    this.assetSearchService.addConfig(this.AssetSearchSetting);
-    this.assetSearchService.addRecentSearches(this.recentSearches);
+    this._assetSearchService.addConfig(this.AssetSearchSetting);
+    this._assetSearchService.addRecentSearches(this.recentSearches);
   }
 }
