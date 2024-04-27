@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, EventEmitter, OnInit, Output } from '@angular/core';
 import { Observable, Subject, Subscription } from 'rxjs';
 import { debounceTime} from 'rxjs/operators';
 import { HttpRequestStateService } from '../../services/http-request-state.service';
@@ -13,6 +13,8 @@ import { AssetSearchService } from './asset-search.service';
 })
 export class AssetSearchComponent implements OnInit {
 
+  @Output() trigger: EventEmitter<any> = new EventEmitter();
+
   private searchTextDebounce: Subject<string> = new Subject<string>();
 
   // Se crea esta variable privada para almacenar la última cadena de búsqueda introducida por el usuario.
@@ -21,7 +23,7 @@ export class AssetSearchComponent implements OnInit {
 
   private assetSearchConfigSubscription: Subscription; // Almacena la suscripción para limpiarla posteriormente
   private assetDataSubscription: Subscription; // Almacena la suscripción para limpiarla posteriormente
-  private recentSearchesSubscription: Subscription; // Almacena la suscripción para limpiarla posteriormente
+  // private recentSearchesSubscription: Subscription; // Almacena la suscripción para limpiarla posteriormente
 
   isLoading$: Observable<number>;
   isLoading = false;
@@ -55,20 +57,27 @@ export class AssetSearchComponent implements OnInit {
       this.assets = data;
     });
 
-    this.recentSearchesSubscription = this._assetSearchService.getRecentSearches().subscribe((searches) =>{
-      this.recentSearches = searches;
-    });
+    // this.recentSearchesSubscription = this._assetSearchService.getRecentSearches().subscribe((searches) =>{
+    //   this.recentSearches = searches;
+    // });
 
-    this.recentSearchesSubscription = this._assetSearchService.getTextSearch().subscribe((searches) =>{
-      console.log('v->', this.assets.length);
-      this.searchText = searches;
-    });
+    // this.recentSearchesSubscription = this._assetSearchService.getTextSearch().subscribe((searches) =>{
+    //   console.log('v->', this.assets.length);
+    //   this.searchText = searches;
+    // });
 
     // Cargar las búsquedas recientes desde el localStorage
     // const recentSearchesString = localStorage.getItem('recentSearches');
     // if (recentSearchesString) {
     //   this.recentSearches = JSON.parse(recentSearchesString);
     // }
+  }
+
+
+  private search(): void {
+    if (!this.searchText) return;
+
+    this._assetSearchService.addTextSearch(this.searchText);
   }
 
   // Método para realizar la búsqueda
@@ -82,21 +91,10 @@ export class AssetSearchComponent implements OnInit {
     this.searchTextDebounce.next(this.searchText);
   }
 
-  private search(): void {
-    if (!this.searchText) return;
-
-    this._assetSearchService.addTextSearch(this.searchText);
+  selectAssetPair(asset: dataModel){
+    console.log('asset->', asset);
+    this.trigger.emit(asset);
   }
-
-  // Método para guardar la búsqueda reciente
-  // saveRecentSearch(searchText: string): void {
-  //   // Agregar la búsqueda reciente al principio del array
-  //   this.recentSearches.unshift(searchText);
-  //   // Limitar la cantidad de búsquedas recientes a 5
-  //   this.recentSearches = this.recentSearches.slice(0, 5);
-  //   // Guardar las búsquedas recientes en el localStorage
-  //   localStorage.setItem('recentSearches', JSON.stringify(this.recentSearches));
-  // }
 
   ngOnDestroy(): void {
     // Se limpia los Observables si el componente se destruye

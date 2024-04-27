@@ -1,6 +1,6 @@
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { Observable } from 'rxjs';
+import { Observable, Subject } from 'rxjs';
 import { environment } from 'src/environments/environment';
 import { AuthService } from '../../auth';
 
@@ -10,6 +10,8 @@ const API_CRYPTO_URL = `${environment.apiUrl}/cryptos`;
   providedIn: 'root'
 })
 export class CryptoAssetService {
+
+  private readonly _pairCryptoSelected$ = new Subject<string>();
 
   constructor(
     private http: HttpClient,

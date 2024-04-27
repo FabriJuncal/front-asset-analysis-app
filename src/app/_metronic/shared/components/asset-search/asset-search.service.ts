@@ -18,6 +18,8 @@ export class AssetSearchService {
   private readonly _data$ = new BehaviorSubject<dataModel[]>([]);
   private readonly _recentSearches$ = new BehaviorSubject<any[]>([]);
   private readonly _textSearch$ = new Subject<string>();
+  private readonly _pairAssetSelected$ = new Subject<string>();
+
 
   constructor() { }
 
@@ -30,7 +32,9 @@ export class AssetSearchService {
     return this._assetSearchConfig$.asObservable();
   }
 
-  public addData(data: dataModel[]): void {
+  // nameStorage: Define el nombre con el que se almacenará en el LocalStorage
+  public addData(nameStorage: string, data: dataModel[]): void {
+    localStorage.setItem(nameStorage, JSON.stringify(data));
     this._data$.next(data);
   }
 
@@ -40,10 +44,6 @@ export class AssetSearchService {
 
   public clearData(): void {
     this._data$.next([]);
-  }
-
-  public addRecentSearches(data: dataModel[]): void {
-    this._recentSearches$.next(data);
   }
 
   public getRecentSearches(): Observable<dataModel[]> {
@@ -65,5 +65,13 @@ export class AssetSearchService {
 
   public clearTextSearch(): void {
     this._textSearch$.next('');
+  }
+
+  addAssetPairSelected(pairAsset: string){
+    this._pairAssetSelected$.next(pairAsset);
+  }
+
+  getAssetPairSelected(){
+    return this._pairAssetSelected$.asObservable();
   }
 }

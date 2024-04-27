@@ -17,7 +17,8 @@ export class dataModel {
   investmentPlatform: {
     name: string,
     logo: string
-  }
+  };
+  filterTradingView: string;
 }
 
 // recentSearches: any[]; // Assuming recentSearches is an array of objects with relevant properties

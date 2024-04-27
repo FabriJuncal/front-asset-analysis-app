@@ -81,7 +81,7 @@
         <!--begin::Users-->
         <div class="mh-375px scroll-y me-n7 pe-7">
           <!--begin::User-->
-          <div class="rounded d-flex flex-stack bg-active-lighten p-4" *ngFor="let asset of assets">
+          <div class="rounded d-flex flex-stack bg-active-lighten p-4 link-item" (click)="selectAssetPair(asset)" *ngFor="let asset of assets">
             <!--begin::Details-->
             <div class="d-flex align-items-center w-100">
               <!--begin::Avatar-->

@@ -3,7 +3,7 @@ import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { AssetSearchComponent } from '../../_metronic/shared/components/asset-search/asset-search.component';
 import { AssetSearchService } from '../../_metronic/shared/components/asset-search/asset-search.service';
 import { CryptoAssetService } from './services/crypto-asset.service';
-import { AssetSearchModel } from '../../_metronic/shared/components/asset-search/asset-search.model';
+import { AssetSearchModel, dataModel } from '../../_metronic/shared/components/asset-search/asset-search.model';
 
 
 @Component({
@@ -13,14 +13,14 @@ import { AssetSearchModel } from '../../_metronic/shared/components/asset-search
 })
 export class CryptoAssetComponent implements OnInit{
 
-  crypto: any;
+  cryptoPair: dataModel;
   AssetSearchSetting: AssetSearchModel;
   recentSearches: any;
 
   constructor(
     private modelService: NgbModal,
     private _assetSearchService: AssetSearchService,
-    private cryptoAssetService: CryptoAssetService
+    private _cryptoAssetService: CryptoAssetService
   ){}
 
   ngOnInit(){
@@ -41,16 +41,17 @@ export class CryptoAssetComponent implements OnInit{
       }
     );
 
-    // modalRef.componentInstance.trigger.subscribe((resp: any) => {
-    //   this.crypto.unshift(resp);
-    // });
+    modalRef.componentInstance.trigger.subscribe((resp: dataModel) => {
+      console.log('Asset Pair Selected->', resp);
+      this._cryptoAssetService.addCryptoPairSelected(resp.filterTradingView);
+    });
   }
 
   searchCryptosPairs(searchCrypto: string){
-    this.cryptoAssetService.getCryptosPairs(searchCrypto)
+    this._cryptoAssetService.getCryptosPairs(searchCrypto)
     .subscribe((data) => {
-      console.log('this.cryptoAssetService.getCryptosPairs->', data);
-      this._assetSearchService.addData(data.cryptosPairs);
+      console.log('this._cryptoAssetService.getCryptosPairs->', data);
+      this._assetSearchService.addData('cryptoPairs', data.cryptosPairs);
     });
   }
 
@@ -71,6 +72,6 @@ export class CryptoAssetComponent implements OnInit{
     ]
 
     this._assetSearchService.addConfig(this.AssetSearchSetting);
-    this._assetSearchService.addRecentSearches(this.recentSearches);
+    // this._assetSearchService.addRecentSearches(this.recentSearches);
   }
 }

@@ -1,0 +1,9 @@
+[data-bs-theme="light"] .link-item:hover{
+  cursor: pointer;
+  background-color: #f0f0f0; /* Change background color on hover */
+}
+
+[data-bs-theme="dark"] .link-item:hover{
+  cursor: pointer;
+  background-color: #2b2b40; /* Change background color on hover */
+}

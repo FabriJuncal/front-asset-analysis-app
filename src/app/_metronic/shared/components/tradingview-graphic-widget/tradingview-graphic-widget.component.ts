@@ -1,5 +1,7 @@
 import { Component, EventEmitter, Input, OnInit, Output, output } from '@angular/core';
 import { BarStyles, CONTAINER_ID, IntervalTypes, ITradingViewWidget, SCRIPT_ID, Themes } from './tradingview-graphic-widget.model';
+import { AssetSearchService } from '../asset-search/asset-search.service';
+import { Subscription } from 'rxjs';
 
 // Assuming TradingView is loaded globally (if not, consider using a service)
 declare var TradingView: any;
@@ -36,6 +38,7 @@ export class TradingviewGraphicWidgetComponent implements OnInit {
     // width: 1100,
     // height: 500,
   };
+  private pairAssetSelectedSubscription: Subscription; // Almacena la suscripción para limpiarla posteriormente
 
   style: {} = {};
   containerId = CONTAINER_ID;
@@ -52,9 +55,13 @@ export class TradingviewGraphicWidgetComponent implements OnInit {
     return this._widgetConfig || this._defaultConfig;
   }
 
-  constructor() { }
+  constructor(private _assetSearchService: AssetSearchService) { }
 
   ngOnInit(): void {
+    // Obtiene el par crypto seleccionado
+    this.pairAssetSelectedSubscription = this._assetSearchService.getAssetPairSelected().subscribe((assetPairSelected) => {
+      console.log('this._cryptoAssetService.getAssetPairSelected()->', assetPairSelected);
+    });
     this.appendScript(this.initWidget.bind(this));
   }
 
