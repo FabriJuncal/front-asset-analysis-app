@@ -37,6 +37,7 @@ ng generate component _metronic/shared/components/dynamic-search-form
 ng generate component _metronic/shared/components/dynamic-table
 ng generate component _metronic/shared/components/tradingview-graphic-widget
 ng generate component _metronic/shared/components/asset-search
+ng generate component _metronic/shared/components/assetPair-search
 
 ng generate service _metronic/shared/services/HttpRequestState
 ng generate service _metronic/shared/services/image
@@ -44,12 +45,15 @@ ng generate service _metronic/shared/services/tradingview
 ng generate service _metronic/shared/components/dynamic-search-form/dynamic-search-form
 ng generate service _metronic/shared/components/dynamic-table/dynamic-table
 ng generate service _metronic/shared/components/asset-search/asset-search
+ng generate service _metronic/shared/components/asset-pair-search/asset-pair-search
+ng generate service _metronic/shared/components/tradingview-graphic-widget/tradingview-graphic-widget
 
 
 ng generate class _metronic/shared/components/dynamic-search-form/dynamic-search-form.model
 ng generate class _metronic/shared/components/dynamic-table/dynamic-table.model
 ng generate class _metronic/shared/components/tradingview-graphic-widget/tradingview-graphic-widget.model
-ng generate class _metronic/shared/components/asset-search//asset-search/asset-search.model
+ng generate class _metronic/shared/components/asset-search/asset-search.model
+ng generate class _metronic/shared/components/asset-pair-search/asset-pair-search.model
 
 ng generate interceptor _metronic/shared/interceptors/http-request
 

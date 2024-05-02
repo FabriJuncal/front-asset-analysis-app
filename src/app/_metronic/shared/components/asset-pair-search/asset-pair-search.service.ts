@@ -1,13 +1,14 @@
 import { Injectable } from '@angular/core';
-import { AssetSearchModel, dataModel } from './asset-search.model';
+import { AssetPairSearchModel, dataModel } from './asset-pair-search.model';
 import { BehaviorSubject, Observable, Subject } from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
 })
-export class AssetSearchService {
-  assetSearchConfig: AssetSearchModel[]
-  private readonly _assetSearchConfig$ = new BehaviorSubject<AssetSearchModel>({
+export class AssetPairSearchService {
+
+  assetSearchConfig: AssetPairSearchModel[]
+  private readonly _assetSearchConfig$ = new BehaviorSubject<AssetPairSearchModel>({
     title: '',
     subTitle: '',
     searchPlaceholder: '',
@@ -20,15 +21,14 @@ export class AssetSearchService {
   private readonly _textSearch$ = new Subject<string>();
   private readonly _assetSelected$ = new Subject<string>();
 
-
   constructor() { }
 
-  public addConfig(config: AssetSearchModel): void {
+  public addConfig(config: AssetPairSearchModel): void {
     console.log('addConfig->',config);
     this._assetSearchConfig$.next(config);
   }
 
-  public getConfig(): Observable<AssetSearchModel> {
+  public getConfig(): Observable<AssetPairSearchModel> {
     return this._assetSearchConfig$.asObservable();
   }
 

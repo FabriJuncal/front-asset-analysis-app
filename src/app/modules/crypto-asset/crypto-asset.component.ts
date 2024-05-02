@@ -3,7 +3,9 @@ import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { AssetSearchComponent } from '../../_metronic/shared/components/asset-search/asset-search.component';
 import { AssetSearchService } from '../../_metronic/shared/components/asset-search/asset-search.service';
 import { CryptoAssetService } from './services/crypto-asset.service';
-import { AssetSearchModel, dataModel } from '../../_metronic/shared/components/asset-search/asset-search.model';
+import { AssetSearchModel } from '../../_metronic/shared/components/asset-search/asset-search.model';
+import { Subscription } from 'rxjs';
+import { CryptoAssetModel } from './models/crypto-asset.model';
 
 
 @Component({
@@ -13,9 +15,9 @@ import { AssetSearchModel, dataModel } from '../../_metronic/shared/components/a
 })
 export class CryptoAssetComponent implements OnInit{
 
-  cryptoPair: dataModel;
   AssetSearchSetting: AssetSearchModel;
   recentSearches: any;
+  textSearchSubscription: Subscription;
 
   constructor(
     private modelService: NgbModal,
@@ -23,15 +25,15 @@ export class CryptoAssetComponent implements OnInit{
     private _cryptoAssetService: CryptoAssetService
   ){}
 
-  ngOnInit(){
+  ngOnInit(): void{
     this.initComponents();
     this._assetSearchService.getTextSearch().subscribe((searchText) => {
-      this.searchCryptosPairs(searchText);
+      this.searchCryptos(searchText);
     });
   }
 
   openAssetSearchModal(): void{
-    const modalRef = this.modelService.open(AssetSearchComponent, { centered: true, size: 'lg' });
+    const modalRef = this.modelService.open(AssetSearchComponent, { centered: true, size: 'sm' });
     modalRef.result.then(
       () => {
         // Handle success
@@ -41,26 +43,28 @@ export class CryptoAssetComponent implements OnInit{
       }
     );
 
-    modalRef.componentInstance.trigger.subscribe((resp: dataModel) => {
-      console.log('Asset Pair Selected->', resp);
-      this._cryptoAssetService.addCryptoPairSelected(resp.filterTradingView);
+    modalRef.componentInstance.trigger.subscribe((crypto: CryptoAssetModel) => {
+      const filterTradingView = `BINANCE:${crypto.symbol}USDT`;
+      this._assetSearchService.addAssetSelected(filterTradingView);
     });
   }
 
-  searchCryptosPairs(searchCrypto: string){
-    this._cryptoAssetService.getCryptosPairs(searchCrypto)
+  searchCryptos(searchCrypto: string){
+    const page = 1;
+    this._cryptoAssetService.getCryptos(page, searchCrypto)
     .subscribe((data) => {
-      console.log('this._cryptoAssetService.getCryptosPairs->', data);
-      this._assetSearchService.addData('cryptoPairs', data.cryptosPairs);
+      console.log('this._cryptoAssetService.getCryptos->', data);
+      const cryptos = data.data;
+      this._assetSearchService.addData('cryptos', cryptos);
     });
   }
 
-  initComponents(){
+  initComponents(): void{
 
     this.AssetSearchSetting = {
       title: 'Búsqueda de Criptomonedas',
       subTitle: '',
-      searchPlaceholder: 'Buscá por el símbolo o nombre de la criptomoneda',
+      searchPlaceholder: 'Símbolo o Nombre',
       addButtonLabel: 'Add Selected Users',
       emptyMessage: '',
       emptySubMessage: 'Try to search by username, full name or email...'
@@ -73,5 +77,9 @@ export class CryptoAssetComponent implements OnInit{
 
     this._assetSearchService.addConfig(this.AssetSearchSetting);
     // this._assetSearchService.addRecentSearches(this.recentSearches);
+  }
+
+  ngOnDestroy(): void{
+    this.textSearchSubscription.unsubscribe();
   }
 }

@@ -1,4 +1,4 @@
-export class AssetSearchModel {
+export class AssetPairSearchModel {
   title: string;
   subTitle: string;
   searchPlaceholder: string;
@@ -8,10 +8,15 @@ export class AssetSearchModel {
 }
 
 export class dataModel {
-  symbol: string;
-  name: string;
-  logo: string;
+  symbols: string;
+  names: string;
+  logos: {
+    asset1: string,
+    asset2: string | null
+  };
+  investmentPlatform: {
+    name: string,
+    logo: string
+  };
   filterTradingView: string;
 }
-
-// recentSearches: any[]; // Assuming recentSearches is an array of objects with relevant properties

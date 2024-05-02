@@ -1,15 +1,15 @@
-import { AfterViewInit, Component, OnInit, ViewChild } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { Subscription } from 'rxjs';
 import { ModalConfig, ModalComponent } from 'src/app/_metronic/partials';
 import { ITradingViewWidget, IntervalTypes, BarStyles, Themes } from 'src/app/_metronic/shared/components/tradingview-graphic-widget/tradingview-graphic-widget.model';
-import { CryptoAssetService } from '../services/crypto-asset.service';
+import { AssetSearchService } from '../../../_metronic/shared/components/asset-search/asset-search.service';
 
 @Component({
   selector: 'app-technical-analysis',
   templateUrl: './technical-analysis.component.html',
   styleUrl: './technical-analysis.component.scss'
 })
-export class TechnicalAnalysisComponent implements OnInit,  AfterViewInit {
+export class TechnicalAnalysisComponent implements OnInit {
   modalConfig: ModalConfig = {
     modalTitle: 'Modal title',
     dismissButtonLabel: 'Submit',
@@ -17,12 +17,17 @@ export class TechnicalAnalysisComponent implements OnInit,  AfterViewInit {
   };
   @ViewChild('modal') private modalComponent: ModalComponent;
 
+  assetSelectedSubscription: Subscription;
+
   widgetConfig: ITradingViewWidget;
 
-  constructor() {}
+  constructor(private _assetSearchService: AssetSearchService) {}
 
-  ngAfterViewInit(): void {
-
+  ngOnInit(): void {
+    this.assetSelectedSubscription = this._assetSearchService.getAssetSelected().subscribe((asset) => {
+      console.log('this._assetSearchService.getAssetSelected->',asset);
+      this.initWidgetTradingView(asset);
+    });
   }
 
   async openModal() {
@@ -59,6 +64,6 @@ export class TechnicalAnalysisComponent implements OnInit,  AfterViewInit {
   }
 
   ngOnDestroy(): void{
-    this.cryptoPairSelectedSubscription.unsubscribe();
+    this.assetSelectedSubscription.unsubscribe();
   }
 }

@@ -86,20 +86,21 @@
             <div class="d-flex align-items-center w-100">
               <!--begin::Avatar-->
               <div class="symbol symbol-35px symbol-circle">
-                <img  *ngIf="asset.logo" alt="Pic" src="{{ asset.logo}}" />
+                <img  *ngIf="asset.logos.asset1" alt="Pic" src="{{ asset.logos.asset1 }}" />
+                <img *ngIf="asset.logos.asset2" alt="Pic" src="{{ asset.logos.asset2 }}" />
               </div>
               <!--end::Avatar-->
               <!--begin::Details-->
               <div class="ms-5 w-100">
-                <div class="fs-5 fw-bold text-gray-900 mb-2">{{ asset.symbol }}</div>
-                <div class="fw-semibold text-muted">{{ asset.name }}</div>
+                <div class="fs-5 fw-bold text-gray-900 mb-2">{{ asset.symbols }}</div>
+                <div class="fw-semibold text-muted">{{ asset.names }}</div>
               </div>
-              <!-- <div class="d-flex justify-content-end ms-5">
+              <div class="d-flex justify-content-end ms-5">
                 <div class="align-content-center fw-semibold text-muted me-2">{{ asset.investmentPlatform.name }}</div>
                 <div class="symbol symbol-35px symbol-circle">
                   <img class="align-content-center" *ngIf="asset.investmentPlatform.logo" alt="Pic" src="{{ asset.investmentPlatform.logo }}" />
                 </div>
-              </div> -->
+              </div>
               <!--end::Details-->
             </div>
             <!--end::Details-->

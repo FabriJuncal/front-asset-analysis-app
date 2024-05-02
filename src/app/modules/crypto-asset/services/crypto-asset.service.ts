@@ -11,8 +11,6 @@ const API_CRYPTO_URL = `${environment.apiUrl}/cryptos`;
 })
 export class CryptoAssetService {
 
-  private readonly _pairCryptoSelected$ = new Subject<string>();
-
   constructor(
     private http: HttpClient,
     public authService: AuthService,

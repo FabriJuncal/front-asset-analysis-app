@@ -2,17 +2,17 @@ import { Component, EventEmitter, OnInit, Output } from '@angular/core';
 import { Observable, Subject, Subscription } from 'rxjs';
 import { debounceTime} from 'rxjs/operators';
 import { HttpRequestStateService } from '../../services/http-request-state.service';
-import { AssetSearchModel, dataModel } from './asset-search.model';
-import { AssetSearchService } from './asset-search.service';
+import { AssetPairSearchModel, dataModel } from './asset-pair-search.model';
+import { AssetPairSearchService } from './asset-pair-search.service';
 import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 
 @Component({
-  selector: 'app-asset-search',
+  selector: 'app-asset-pair-search',
   standalone: false,
-  templateUrl: './asset-search.component.html',
-  styleUrl: './asset-search.component.scss'
+  templateUrl: './asset-pair-search.component.html',
+  styleUrl: './asset-pair-search.component.scss'
 })
-export class AssetSearchComponent implements OnInit {
+export class AssetPairSearchComponent implements OnInit {
 
   @Output() trigger: EventEmitter<any> = new EventEmitter();
 
@@ -29,14 +29,14 @@ export class AssetSearchComponent implements OnInit {
   isLoading$: Observable<number>;
   isLoading = false;
 
-  assetSearchConfig: AssetSearchModel;
+  assetSearchConfig: AssetPairSearchModel;
   assets: dataModel[];
   recentSearches: any[];
   searchText: string = '';
 
   constructor(
     private _httpRequestState: HttpRequestStateService,
-    private _assetSearchService: AssetSearchService,
+    private _assetPairSearchService: AssetPairSearchService,
     private modal: NgbActiveModal
   ) {
     this.searchTextDebounce.pipe(
@@ -50,20 +50,20 @@ export class AssetSearchComponent implements OnInit {
     this.isLoading$ = this.isLoading$ = this._httpRequestState.getRequestState();
 
     // Obtiene las configuraciones para el buscador de activos
-    this.assetSearchConfigSubscription = this._assetSearchService.getConfig().subscribe((config) => {
+    this.assetSearchConfigSubscription = this._assetPairSearchService.getConfig().subscribe((config) => {
       this.assetSearchConfig = config;
     });
 
-    this.assetDataSubscription = this._assetSearchService.getData().subscribe((data) =>{
-      console.log('this._assetSearchService.getData()', data);
+    this.assetDataSubscription = this._assetPairSearchService.getData().subscribe((data) =>{
+      console.log('this._assetPairSearchService.getData()', data);
       this.assets = data;
     });
 
-    // this.recentSearchesSubscription = this._assetSearchService.getRecentSearches().subscribe((searches) =>{
+    // this.recentSearchesSubscription = this._assetPairSearchService.getRecentSearches().subscribe((searches) =>{
     //   this.recentSearches = searches;
     // });
 
-    // this.recentSearchesSubscription = this._assetSearchService.getTextSearch().subscribe((searches) =>{
+    // this.recentSearchesSubscription = this._assetPairSearchService.getTextSearch().subscribe((searches) =>{
     //   console.log('v->', this.assets.length);
     //   this.searchText = searches;
     // });
@@ -79,7 +79,7 @@ export class AssetSearchComponent implements OnInit {
   private search(): void {
     if (!this.searchText) return;
 
-    this._assetSearchService.addTextSearch(this.searchText);
+    this._assetPairSearchService.addTextSearch(this.searchText);
   }
 
   // Método para realizar la búsqueda
