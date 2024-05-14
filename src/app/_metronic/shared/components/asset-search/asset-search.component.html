@@ -44,7 +44,7 @@
     <!--begin::Wrapper-->
     <div class="py-5">
       <!--begin::Suggestions-->
-      <div *ngIf="!assets.length && recentSearches">
+      <div *ngIf="!assets && recentSearches">
         <!--begin::Heading-->
         <h3 class="fw-semibold mb-5">Busquedas Recientes:</h3>
         <!--end::Heading-->
@@ -120,16 +120,16 @@
       </div>
       <!--end::Results-->
       <!--begin::Empty-->
-      <div class="text-center" *ngIf="assetSearchConfig.emptyMessage">
+      <div class="text-center" *ngIf="isNotExist">
         <!--begin::Message-->
         <div class="fw-semibold py-10">
           <div class="text-gray-600 fs-3 mb-2">{{ assetSearchConfig.emptyMessage }}</div>
-          <!-- <div class="text-muted fs-6">{{ emptySubMessage }}</div> -->
+          <div class="text-muted fs-6">{{ assetSearchConfig.emptySubMessage }}</div>
         </div>
         <!--end::Message-->
         <!--begin::Illustration-->
         <div class="text-center px-5">
-          <img src="assets/media/illustrations/sketchy-1/1.png" alt="" class="w-100 h-200px h-sm-325px" />
+          <img src="assets/media/illustrations/storyset/questions-bro.svg" alt="" class="w-100 h-200px h-sm-325px" />
         </div>
         <!--end::Illustration-->
       </div>

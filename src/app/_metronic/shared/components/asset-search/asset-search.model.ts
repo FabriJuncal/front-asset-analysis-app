@@ -5,6 +5,7 @@ export class AssetSearchModel {
   addButtonLabel: string;
   emptyMessage: string;
   emptySubMessage: string;
+  localStorageName: string;
 }
 
 export class dataModel {

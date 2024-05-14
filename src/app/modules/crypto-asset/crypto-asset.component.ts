@@ -33,7 +33,7 @@ export class CryptoAssetComponent implements OnInit{
   }
 
   openAssetSearchModal(): void{
-    const modalRef = this.modelService.open(AssetSearchComponent, { centered: true, size: 'sm' });
+    const modalRef = this.modelService.open(AssetSearchComponent, { centered: true, size: 'md' });
     modalRef.result.then(
       () => {
         // Handle success
@@ -52,10 +52,10 @@ export class CryptoAssetComponent implements OnInit{
   searchCryptos(searchCrypto: string){
     const page = 1;
     this._cryptoAssetService.getCryptos(page, searchCrypto)
-    .subscribe((data) => {
-      console.log('this._cryptoAssetService.getCryptos->', data);
-      const cryptos = data.data;
-      this._assetSearchService.addData('cryptos', cryptos);
+    .subscribe((resp) => {
+      console.log('this._cryptoAssetService.getCryptos->', resp);
+      const cryptos = resp.cryptos ? resp.cryptos.data : [];
+      this._assetSearchService.addData(cryptos);
     });
   }
 
@@ -66,8 +66,9 @@ export class CryptoAssetComponent implements OnInit{
       subTitle: '',
       searchPlaceholder: 'Símbolo o Nombre',
       addButtonLabel: 'Add Selected Users',
-      emptyMessage: '',
-      emptySubMessage: 'Try to search by username, full name or email...'
+      emptyMessage: 'Ninguna criptomoneda coincide.',
+      emptySubMessage: '¿Quieres intentarlo de nuevo?',
+      localStorageName: 'recentSearchesCryptos'
     }
 
     this.recentSearches = [

@@ -16,7 +16,8 @@ export class CryptoAssetService {
     public authService: AuthService,
     ) { }
 
-  getCryptos(page = 1, search: string = ''): Observable<any> {
+  // Obtiene todas las criptomonedas
+  getAllCryptos(page = 1, search: string = ''): Observable<any> {
     const httpHeaders = new HttpHeaders({
       Authorization: `Bearer ${this.authService.token}`,
     });
@@ -31,6 +32,23 @@ export class CryptoAssetService {
     });
   }
 
+  // Obtiene todas las criptomonedas exceptos las stablecoins
+  getCryptos(page = 1, search: string = ''): Observable<any> {
+    const httpHeaders = new HttpHeaders({
+      Authorization: `Bearer ${this.authService.token}`,
+    });
+
+    let filter = '';
+    if(search){
+      filter = `${filter}&search=${search}`;
+    }
+
+    return this.http.get<any>(`${API_CRYPTO_URL}/get-cryptos?page=${page}${filter}`, {
+      headers: httpHeaders,
+    });
+  }
+
+  // Obtiene los pares de criptomonedas
   getCryptosPairs(crypto: string): Observable<any> {
     const httpHeaders = new HttpHeaders({
       Authorization: `Bearer ${this.authService.token}`,

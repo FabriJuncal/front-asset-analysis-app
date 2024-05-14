@@ -16,6 +16,8 @@ export class AssetSearchComponent implements OnInit {
 
   @Output() trigger: EventEmitter<any> = new EventEmitter();
 
+  private readonly MAX_STORAGE_SIZE = 10; // Maximum number of items to store
+
   private searchTextDebounce: Subject<string> = new Subject<string>();
 
   // Se crea esta variable privada para almacenar la última cadena de búsqueda introducida por el usuario.
@@ -28,10 +30,12 @@ export class AssetSearchComponent implements OnInit {
 
   isLoading$: Observable<number>;
   isLoading = false;
+  isfirstSearch = true;
+  isNotExist = false;
 
   assetSearchConfig: AssetSearchModel;
-  assets: dataModel[];
-  recentSearches: any[];
+  assets: dataModel[] = [];
+  recentSearches: any[] = [];
   searchText: string = '';
 
   constructor(
@@ -47,6 +51,7 @@ export class AssetSearchComponent implements OnInit {
   }
 
   ngOnInit(): void {
+    // Obtiene el estado para verificar si hay algúna petición pendiente para mostrar el loader
     this.isLoading$ = this.isLoading$ = this._httpRequestState.getRequestState();
 
     // Obtiene las configuraciones para el buscador de activos
@@ -54,9 +59,16 @@ export class AssetSearchComponent implements OnInit {
       this.assetSearchConfig = config;
     });
 
-    this.assetDataSubscription = this._assetSearchService.getData().subscribe((data) =>{
+    // Obtiene las los registros encontrados
+    this.assetDataSubscription = this._assetSearchService.getData().subscribe ((data) =>{
       console.log('this._assetSearchService.getData()', data);
       this.assets = data;
+      this.recentSearches = [];
+      // Bandera para mostrar mensaje cuando no se encontró ningún registro.
+      this.isNotExist = !this.assets ? true : false;
+      // Modificamos la variable que detecta si es la primera busqueda.
+      // Se utiliza para ocultar antes de la 1ra busqueda el mensaje cuando no se encuentran registros.
+      this.isfirstSearch = false;
     });
 
     // this.recentSearchesSubscription = this._assetSearchService.getRecentSearches().subscribe((searches) =>{
@@ -69,16 +81,23 @@ export class AssetSearchComponent implements OnInit {
     // });
 
     // Cargar las búsquedas recientes desde el localStorage
-    // const recentSearchesString = localStorage.getItem('recentSearches');
-    // if (recentSearchesString) {
-    //   this.recentSearches = JSON.parse(recentSearchesString);
-    // }
+    const recentSearchesString = localStorage.getItem(this.assetSearchConfig.localStorageName);
+    console.log('recentSearchesString->', recentSearchesString);
+    if (recentSearchesString) {
+      this.recentSearches = JSON.parse(recentSearchesString);
+    }
+
+    this.getDataStorage(this.assetSearchConfig.localStorageName);
+
+    console.log('this.isfirstSearch->', this.isfirstSearch);
+    console.log('this.isNotExist->', this.isNotExist);
+    console.log('this.assets->', this.assets);
+    console.log('this.recentSearches->', this.recentSearches);
   }
 
 
   private search(): void {
     if (!this.searchText) return;
-
     this._assetSearchService.addTextSearch(this.searchText);
   }
 
@@ -95,8 +114,34 @@ export class AssetSearchComponent implements OnInit {
 
   selectAssetPair(asset: dataModel){
     console.log('asset->', asset);
+    this.assets = [];
+    this.loadDataStorage(this.assetSearchConfig.localStorageName, asset);
     this.trigger.emit(asset);
     this.modal.close();
+  }
+
+  private getDataStorage<T>(nameStorage: string): T[] {
+    const storedData = localStorage.getItem(nameStorage);
+    if (storedData) {
+      try {
+        return JSON.parse(storedData) as T[];
+      } catch (error) {
+        console.error(`Error al obtener los datos del Localstorage:`, error);
+        return [];
+      }
+    } else {
+      return [];
+    }
+  }
+
+  loadDataStorage<T>(nameStorage: string, data: T) {
+    const storedData = this.getDataStorage<T>(nameStorage);
+    storedData.push(data);
+    if (storedData.length > this.MAX_STORAGE_SIZE) {
+      storedData.shift();
+    }
+
+    localStorage.setItem(nameStorage, JSON.stringify(storedData));
   }
 
   ngOnDestroy(): void {

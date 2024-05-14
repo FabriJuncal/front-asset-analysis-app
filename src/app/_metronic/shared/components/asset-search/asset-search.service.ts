@@ -6,16 +6,18 @@ import { BehaviorSubject, Observable, Subject } from 'rxjs';
   providedIn: 'root'
 })
 export class AssetSearchService {
-  assetSearchConfig: AssetSearchModel[]
+  assetSearchConfig: AssetSearchModel[];
+
   private readonly _assetSearchConfig$ = new BehaviorSubject<AssetSearchModel>({
     title: '',
     subTitle: '',
     searchPlaceholder: '',
     addButtonLabel: '',
     emptyMessage: '',
-    emptySubMessage: ''
+    emptySubMessage: '',
+    localStorageName: ''
   });
-  private readonly _data$ = new BehaviorSubject<dataModel[]>([]);
+  private readonly _data$ = new Subject<dataModel[]>();
   private readonly _recentSearches$ = new BehaviorSubject<any[]>([]);
   private readonly _textSearch$ = new Subject<string>();
   private readonly _assetSelected$ = new Subject<string>();
@@ -33,8 +35,7 @@ export class AssetSearchService {
   }
 
   // nameStorage: Define el nombre con el que se almacenará en el LocalStorage
-  public addData(nameStorage: string, data: dataModel[]): void {
-    localStorage.setItem(nameStorage, JSON.stringify(data));
+  public addData(data: dataModel[]): void {
     this._data$.next(data);
   }
 
