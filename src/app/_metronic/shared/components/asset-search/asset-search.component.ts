@@ -16,7 +16,7 @@ export class AssetSearchComponent implements OnInit {
 
   @Output() trigger: EventEmitter<any> = new EventEmitter();
 
-  private readonly MAX_STORAGE_SIZE = 10; // Maximum number of items to store
+  private readonly MAX_STORAGE_SIZE = 10; // Tamaño Maximo de Registros en el LocalStorage (Utilizado para mostrar los ultimos activos buscados)
 
   private searchTextDebounce: Subject<string> = new Subject<string>();
 
@@ -31,6 +31,7 @@ export class AssetSearchComponent implements OnInit {
   isLoading$: Observable<number>;
   isLoading = false;
   isfirstSearch = true;
+  isShowRecentSearh = false;
   isNotExist = false;
 
   assetSearchConfig: AssetSearchModel;
@@ -61,7 +62,6 @@ export class AssetSearchComponent implements OnInit {
 
     // Obtiene las los registros encontrados
     this.assetDataSubscription = this._assetSearchService.getData().subscribe ((data) =>{
-      console.log('this._assetSearchService.getData()', data);
       this.assets = data;
       this.recentSearches = [];
       // Bandera para mostrar mensaje cuando no se encontró ningún registro.
@@ -71,28 +71,9 @@ export class AssetSearchComponent implements OnInit {
       this.isfirstSearch = false;
     });
 
-    // this.recentSearchesSubscription = this._assetSearchService.getRecentSearches().subscribe((searches) =>{
-    //   this.recentSearches = searches;
-    // });
-
-    // this.recentSearchesSubscription = this._assetSearchService.getTextSearch().subscribe((searches) =>{
-    //   console.log('v->', this.assets.length);
-    //   this.searchText = searches;
-    // });
-
     // Cargar las búsquedas recientes desde el localStorage
-    const recentSearchesString = localStorage.getItem(this.assetSearchConfig.localStorageName);
-    console.log('recentSearchesString->', recentSearchesString);
-    if (recentSearchesString) {
-      this.recentSearches = JSON.parse(recentSearchesString);
-    }
-
-    this.getDataStorage(this.assetSearchConfig.localStorageName);
-
-    console.log('this.isfirstSearch->', this.isfirstSearch);
-    console.log('this.isNotExist->', this.isNotExist);
-    console.log('this.assets->', this.assets);
-    console.log('this.recentSearches->', this.recentSearches);
+    this.recentSearches = this.getDataStorage(this.assetSearchConfig.localStorageName);
+    this.isShowRecentSearh = this.recentSearches.length > 0 && this.assets.length === 0;
   }
 
 
@@ -113,11 +94,12 @@ export class AssetSearchComponent implements OnInit {
   }
 
   selectAssetPair(asset: dataModel){
-    console.log('asset->', asset);
     this.assets = [];
+    this.recentSearches = [];
+    this.isfirstSearch = true;
     this.loadDataStorage(this.assetSearchConfig.localStorageName, asset);
-    this.trigger.emit(asset);
     this.modal.close();
+    this.trigger.emit(asset);
   }
 
   private getDataStorage<T>(nameStorage: string): T[] {
@@ -134,14 +116,22 @@ export class AssetSearchComponent implements OnInit {
     }
   }
 
-  loadDataStorage<T>(nameStorage: string, data: T) {
-    const storedData = this.getDataStorage<T>(nameStorage);
-    storedData.push(data);
-    if (storedData.length > this.MAX_STORAGE_SIZE) {
-      storedData.shift();
+  loadDataStorage<T>(nameStorage: string, data: dataModel) {
+    const storedData = this.getDataStorage<dataModel>(nameStorage);
+    const existingAsset = storedData.find(asset => asset.name === data.name);
+    if (!existingAsset) {
+      storedData.unshift(data);
+      if (storedData.length > this.MAX_STORAGE_SIZE) {
+        storedData.pop();
+      }
+      localStorage.setItem(nameStorage, JSON.stringify(storedData));
+    }else{
+      const storedDataFilter = storedData.filter((asset) => {
+        return asset.name !== data.name;
+      });
+      storedDataFilter.unshift(data);
+      localStorage.setItem(nameStorage, JSON.stringify(storedDataFilter));
     }
-
-    localStorage.setItem(nameStorage, JSON.stringify(storedData));
   }
 
   ngOnDestroy(): void {

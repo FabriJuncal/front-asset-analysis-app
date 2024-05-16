@@ -44,34 +44,47 @@
     <!--begin::Wrapper-->
     <div class="py-5">
       <!--begin::Suggestions-->
-      <div *ngIf="!assets && recentSearches">
+      <div *ngIf="isShowRecentSearh && isfirstSearch">
         <!--begin::Heading-->
         <h3 class="fw-semibold mb-5">Busquedas Recientes:</h3>
         <!--end::Heading-->
         <!--begin::Users-->
         <div class="mh-375px scroll-y me-n7 pe-7">
           <!--begin::User-->
-          <a href="#" *ngFor="let item of recentSearches" class="d-flex align-items-center p-3 rounded bg-state-light bg-state-opacity-50 mb-1">
-            <!--begin::Info-->
+          <div class="rounded d-flex flex-stack bg-active-lighten p-4 link-item" (click)="selectAssetPair(asset)" *ngFor="let asset of recentSearches">
+            <!--begin::Details-->
             <div class="d-flex align-items-center w-100">
               <!--begin::Avatar-->
               <div class="symbol symbol-35px symbol-circle">
-                <img alt="Pic" src="{{ item.logo }}" />
+                <img  *ngIf="asset.logo" alt="Pic" src="{{ asset.logo}}" />
               </div>
               <!--end::Avatar-->
               <!--begin::Details-->
-              <div class="ms-5 d-flex justify-content-between w-100">
-                <div>
-                  <a href="#" class="fs-5 fw-bold text-gray-900 text-hover-primary mb-2">{{ item.parCripto }}</a>
-                  <div class="fw-semibold text-muted">{{ item.parCriptoName }}</div>
-                </div>
-                <div class="fw-semibold text-muted">{{ item.exchange }}</div>
+              <div class="ms-5 w-100">
+                <div class="fs-5 fw-bold text-gray-900 mb-2">{{ asset.symbol }}</div>
+                <div class="fw-semibold text-muted">{{ asset.name }}</div>
               </div>
+              <!-- <div class="d-flex justify-content-end ms-5">
+                <div class="align-content-center fw-semibold text-muted me-2">{{ asset.investmentPlatform.name }}</div>
+                <div class="symbol symbol-35px symbol-circle">
+                  <img class="align-content-center" *ngIf="asset.investmentPlatform.logo" alt="Pic" src="{{ asset.investmentPlatform.logo }}" />
+                </div>
+              </div> -->
               <!--end::Details-->
             </div>
-            <!--end::Info-->
-          </a>
+            <!--end::Details-->
+            <!--begin::Access menu-->
+            <!-- <div class="ms-2 w-100px">
+              <select class="form-select form-select-solid form-select-sm" data-control="select2" data-hide-search="true">
+                <option *ngFor="let role of userRoles" [value]="role.value" [selected]="role.value === asset.role">{{ role.label }}</option>
+              </select>
+            </div> -->
+            <!--end::Access menu-->
+          </div>
           <!--end::User-->
+          <!--begin::Separator-->
+          <div class="border-bottom border-gray-300 border-bottom-dashed"></div>
+          <!--end::Separator-->
         </div>
         <!--end::Users-->
       </div>
