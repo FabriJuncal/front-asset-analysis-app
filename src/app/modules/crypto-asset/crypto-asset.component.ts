@@ -17,7 +17,6 @@ export class CryptoAssetComponent implements OnInit{
 
   AssetSearchSetting: AssetSearchModel;
   recentSearches: any;
-  textSearchSubscription: Subscription;
 
   constructor(
     private modelService: NgbModal,
@@ -80,7 +79,4 @@ export class CryptoAssetComponent implements OnInit{
     // this._assetSearchService.addRecentSearches(this.recentSearches);
   }
 
-  ngOnDestroy(): void{
-    this.textSearchSubscription.unsubscribe();
-  }
 }

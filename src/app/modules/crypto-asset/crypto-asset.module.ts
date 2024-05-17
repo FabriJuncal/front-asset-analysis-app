@@ -6,6 +6,7 @@ import { CryptoAssetRoutingModule } from './crypto-asset-routing.module';
 import { ComponentsModule } from '../../_metronic/shared/components/components.module';
 import { FundamentalAnalysisComponent } from './fundamental-analysis/fundamental-analysis.component';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
+import { SharedModule } from '../../_metronic/shared/shared.module'
 
 
 
@@ -18,6 +19,7 @@ import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
   imports: [
     CryptoAssetRoutingModule,
     CommonModule,
+    SharedModule,
     ComponentsModule,
     NgbModule
   ]
